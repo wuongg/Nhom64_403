@@ -21,7 +21,8 @@ Trung tâm hỗ trợ của XanhSM đang gặp tình trạng quá tải khi xử
 - Main failure mode: người dùng mô tả quá chung chung (“bị trừ tiền”, “không an toàn”) → AI hỏi lan man hoặc đưa sai bài; cần nút chọn nhanh + câu hỏi làm rõ thật ngắn + ưu tiên đường lui gặp nhân viên
 
 ## Phân công
-- An: Canvas + failure modes
-- Bình: User stories 4 paths
-- Châu: Eval metrics + ROI
-- Dũng: Prototype research + prompt test
+- Lương: Canvas + failure modes
+- Tú: User stories 4 paths
+- Phước: Eval metrics + ROI
+- Trung: Prototype research + prompt test
+- Vương: Tổng hợp tài liệu + chỉnh sửa final spec
