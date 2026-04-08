@@ -9,19 +9,20 @@ Trung tâm hỗ trợ của XanhSM đang gặp tình trạng quá tải khi xử
 
 | | Value | Trust | Feasibility |
 |---|-------|-------|-------------|
-| Trả lời + Tra cứu | Khách hàng hỏi lặp lại (trạng thái chuyến, hoá đơn, mã khuyến mãi, thất lạc đồ). Pain: chờ lâu, phải mô tả lại nhiều lần. AI trả lời ngay + hướng dẫn bước tiếp theo + (nếu cần) tra cứu theo mã chuyến/SĐT. | Nếu trả lời sai → mất niềm tin, khiếu nại, rủi ro “bịa” thông tin. Phải luôn có nút **chuyển nhân viên** và hiển thị rõ **AI có thể sai** khi thiếu dữ liệu. Chỉ tra cứu khi user cung cấp định danh hợp lệ. | Tích hợp kênh chat + intent routing + KB. Latency mục tiêu <3s cho FAQ; tra cứu có thể 3–6s. Cost LLM ~\$0.003–0.01/lượt tuỳ model. Risk: câu hỏi mơ hồ (“tôi bị trừ tiền”), dữ liệu phân tán, yêu cầu bảo mật/PII. |
+| Trả lời + Hướng dẫn | Người dùng cần “giải quyết nhanh” các câu hỏi thường gặp trong Trung tâm hỗ trợ: **An toàn**, **đặt/chỉnh/hủy chuyến**, **thất lạc đồ**, **thanh toán & hoá đơn/VAT**, **khuyến mãi/VPoint**, **tài khoản & bảo mật**, **lỗi ứng dụng**. Pain: tìm mục đúng khó, phải đọc dài, chờ tổng đài, phải kể lại nhiều lần. AI giúp: tóm tắt đúng vấn đề + đưa đúng bước thao tác theo ngữ cảnh. | Người dùng kỳ vọng: **không bịa**, nói rõ khi “không chắc”, và luôn có đường lui “gặp nhân viên”. Nội dung liên quan **an toàn/tai nạn/quấy rối** phải ưu tiên hướng dẫn khẩn cấp + hotline. Với thanh toán/PII: hỏi tối thiểu và giải thích vì sao cần thông tin. | Người dùng chấp nhận: trả lời ngắn gọn, theo “bước 1-2-3”, có nút chọn nhanh thay vì phải gõ nhiều; nếu vấn đề phức tạp thì chuyển nhân viên và **không bắt kể lại từ đầu**. |
 
-**Auto hay aug?** Augmentation/Hybrid — AI xử lý FAQ/flow đơn giản; các case nhạy cảm (tranh chấp thanh toán, sự cố an toàn, hoàn tiền) luôn **handoff** sang nhân viên.
+**Auto hay aug?** Augmentation — AI hỗ trợ định hướng/giải thích/hướng dẫn; quyết định cuối cùng (đặc biệt ca nhạy cảm) thuộc về người dùng và/hoặc nhân viên hỗ trợ.
 
-**Learning signal:** user bấm “Hữu ích/Không hữu ích”, chọn intent đúng sau khi AI gợi ý, tỉ lệ handoff, thời gian giải quyết ticket, nhãn của nhân viên (đúng/sai/thiếu thông tin) → dùng làm correction signal cho KB + prompt + routing.
+**Learning signal (từ góc nhìn user):** user bấm “Hữu ích/Không hữu ích”, chọn lại mục đúng, hoặc phải bấm “gặp nhân viên” → phản ánh AI đang hướng dẫn đúng hay chưa.
 
 ## Hướng đi chính
-- Prototype: chatbot hỗ trợ hỏi 2–4 câu làm rõ → phân loại intent (chuyến đi / thanh toán / thất lạc / khuyến mãi / khác) → trả lời từ KB + link hướng dẫn, hoặc tạo yêu cầu và chuyển nhân viên
-- Eval: containment rate (không cần nhân viên) ≥ 30–50% cho FAQ; CSAT không giảm; thời gian phản hồi ban đầu < 10s; tỉ lệ “AI trả lời sai” (user downvote/escalation vì sai) giảm theo tuần
-- Main failure mode: user mô tả chung chung (“bị trừ tiền”, “không thấy chuyến”) + thiếu định danh → AI trả lời lan man; cần hỏi lại ngắn gọn + fallback sang nhân viên
+- Prototype: chatbot hỏi 2–4 câu làm rõ → đưa người dùng vào đúng nhóm nhu cầu (An toàn / Chuyến đi / Thanh toán / Khuyến mãi / Tài khoản / Ứng dụng) → trả lời dạng checklist “làm ngay” + link tới bài liên quan, hoặc tạo yêu cầu để gặp nhân viên
+- Eval (user-centric): thời gian “tìm được câu trả lời” giảm; số bước thao tác giảm; tỉ lệ “đọc xong vẫn không biết làm gì” giảm; người dùng cảm thấy minh bạch và an tâm hơn
+- Main failure mode: người dùng mô tả quá chung chung (“bị trừ tiền”, “không an toàn”) → AI hỏi lan man hoặc đưa sai bài; cần nút chọn nhanh + câu hỏi làm rõ thật ngắn + ưu tiên đường lui gặp nhân viên
 
 ## Phân công
-- An: Canvas + failure modes
-- Bình: User stories 4 paths
-- Châu: Eval metrics + ROI
-- Dũng: Prototype research + prompt test
+- Anh: Canvas + failure modes
+- Tú: User stories 4 paths
+- Phước: Eval metrics + ROI
+- Trung: Prototype research + prompt test
+- Vương: Tổng hợp tài liệu + chỉnh sửa final spec
