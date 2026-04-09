@@ -15,8 +15,13 @@ $env:OPENAI_API_KEY="YOUR_KEY"
 Run the API:
 
 ```powershell
-uvicorn app.api.main:create_app --factory --reload
+uvicorn app.api.main:app --factory --reload
+```  
+
+Run the frontend:  
 ```
+.venv\Scripts\python.exe -m http.server 3000 --directory frontend
+```  
 
 Run tests:
 
