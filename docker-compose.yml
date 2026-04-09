@@ -1,0 +1,44 @@
+services:
+  # ── Backend: FastAPI ────────────────────────────────────────────────────────
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      # DB lưu ra volume để persist dữ liệu giữa các lần restart
+      DB_URL: sqlite:////data/xanhsm_helpcenter.db
+      # Thư mục raw mount từ host
+      RAW_DIR: /data/raw
+      # Cho phép frontend trên localhost:3000 gọi API (thêm cả port 80)
+      CORS_ORIGINS: "http://localhost,http://localhost:8080,http://localhost:3000,http://localhost:5173,http://127.0.0.1"
+    volumes:
+      # Dữ liệu KB markdown (read-only)
+      - ./raw:/data/raw:ro
+      # Persistent volume cho SQLite DB
+      - db_data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
+  # ── Frontend: nginx serve static HTML ──────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  db_data:
