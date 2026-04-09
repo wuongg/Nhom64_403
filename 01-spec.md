@@ -1,7 +1,9 @@
 # SPEC — AI Product Hackathon
 
-**Nhóm:** Nhom064-403
+**Nhóm:** Nhom064-E403
+
 **Track:** ☐ VinFast · ☐ Vinmec · ☐ VinUni-VinSchool · ☑ XanhSM · ☐ Open
+
 **Problem statement (1 câu):** Khách hàng XanhSM gặp khó khăn khi tìm kiếm quy trình hỗ trợ qua danh sách FAQ dài và phải lặp lại thông tin khi gọi tổng đài; AI tóm tắt nhanh quy trình chuẩn và tự động điều phối, gom ngữ cảnh chuyển nhân viên CSKH ngay khi cần.
 
 ---
@@ -11,7 +13,7 @@
 |   | Value | Trust | Feasibility |
 |---|-------|-------|-------------|
 | **Câu hỏi** | User nào? Pain gì? AI giải gì? | Khi AI sai thì sao? User sửa bằng cách nào? | Cost/latency bao nhiêu? Risk chính? |
-| **Trả lời** | **User:** Khách XanhSM gặp sự cố chuyến đi, thanh toán, thất lạc đồ.<br>**Pain:** Tìm FAQ khó, gọi tổng đài lâu, phải kể lại vấn đề từ đầu.<br>**AI giải quyết:** Đóng vai trò trợ lý điều phối; phân loại intent, trích RAG hướng dẫn, tóm tắt ngữ cảnh & chuyển CSKH. | **Khi sai:** Trả lời nhầm (ném FAQ khi khách hoảng loạn).<br>**Cách sửa:** Rào trước "Do bảo mật, em chỉ tra cứu...". User có thể bấm "Gặp nhân viên ngay". AI tự sửa sai: chuyển thẳng CSKH nếu hỏi lặp quá 3 turn, hoặc bế tắc. | **Cost:** ~100đ-300đ/req.<br>**Latency:** <2-3s/phản hồi.<br>**Risk:** Intent mismatch (từ lóng teencode), đặt ngưỡng handoff sai, KB bị lỗi thời. |
+| **Trả lời** | **User:** Khách XanhSM gặp sự cố chuyến đi, thanh toán, thất lạc đồ.<br>**Pain:** Tìm FAQ khó, gọi tổng đài lâu, phải kể lại vấn đề từ đầu.<br>**AI giải quyết:** Đóng vai trò trợ lý điều phối; phân loại intent, trích RAG hướng dẫn, tóm tắt ngữ cảnh & chuyển CSKH. | **Khi sai:** Trả lời nhầm (ném FAQ khi khách hoảng loạn).<br>**Cách sửa:** Rào trước "Do bảo mật, em chỉ tra cứu...". User có thể bấm "Gặp nhân viên ngay". AI tự sửa sai: chuyển thẳng CSKH nếu không tìm được hướng dẫn trên Knowledge Base, hoặc khách yêu cầu gặp nhân viên. | **Cost:** ~100đ-300đ/req.<br>**Latency:** <2-3s/phản hồi.<br>**Risk:** Intent mismatch (từ lóng teencode), đặt ngưỡng handoff sai, KB bị lỗi thời. |
 
 **Automation hay augmentation?** ☐ Automation · ☑ Augmentation
 Justify: AI tuyệt đối không can thiệp tự động (do không được truy cập Dữ liệu Khách hàng PII/hành trình thực). AI chỉ sàng lọc bước đầu (Tier 1). Mọi quyết định đền bù, nhạy cảm đều do CSKH chốt. Khi có rủi ro, hệ thống nhường quyền tự động cho CSKH.
@@ -21,7 +23,7 @@ Justify: AI tuyệt đối không can thiệp tự động (do không được t
 1. User correction đi vào đâu? Đi vào chat logs, gắn cờ ưu tiên. CSKH thay AI xem lại ca chuyển tiếp (fail handoff), cập nhật Knowledge Base hoặc rule threshold.
 2. Product thu signal gì để biết tốt lên hay tệ đi?
    - Tốt: Deflection rate (tự xử lý xong) tăng; Thời gian chốt ticket giảm.
-   - Tệ: Lượt bấm "Gặp nhân viên ngay" ngay từ đầu quá lớn; rơi vào ngắt tự động (hỏi quá 3 turn) nhiều; drop-off cao.
+   - Tệ: Lượt bấm "Gặp nhân viên ngay" ngay từ đầu quá lớn; rơi vào ngắt và handoff do thiếu dữ liệu Knowledge Base nhiều; drop-off cao.
 3. Data thuộc loại nào? ☐ User-specific · ☑ Domain-specific · ☐ Real-time · ☑ Human-judgment · ☑ Khác: Log hội thoại (Chat logs)
    Có marginal value không? (Model đã biết cái này chưa?) Chắc chắn Có (Moat/Hào kinh tế). Kho từ lóng phàn nàn của người Việt (app lag trừ tiền 2 chập, xe hôi, đi láo) mà không LLM mở nào tự hiểu đúng. Data này giúp map chuẩn intent vào bài policy.
 
@@ -40,7 +42,7 @@ Mỗi feature chính = 1 bảng. AI trả lời xong → chuyện gì xảy ra?
 | Happy — AI đúng, tự tin | User thấy gì? Flow kết thúc ra sao? | User hỏi "Xin VAT", AI nhận đúng vấn đề → hiển thị luồng bước 1-2-3 (checklist) kèm nút chuyển chức năng. User làm theo và kết thúc nhanh gọn. |
 | Low-confidence — AI không chắc | System báo "không chắc" bằng cách nào? User quyết thế nào? | User nhắn "Bị trừ tiền". AI không phán đoán bừa, đưa ra tối đa 2 câu hỏi ngắn/nút click (VD: "Bị trừ đúp" hay "Huỷ xe nhưng vẫn trừ tiền?"). User bấm chọn đúng luồng. |
 | Failure — AI sai | User biết AI sai bằng cách nào? Recover ra sao? | AI đưa nhầm FAQ (xin cách đặt xe thay vì phản ánh bác tài sai biển số). Recovery: Nút "Câu trả lời không đúng" luôn thường trực. Chuyển fallback sang CSKH. |
-| Correction — user sửa | User sửa bằng cách nào? Data đó đi vào đâu? | User bấm phàn nàn hoặc "Gặp nhân viên hỗ trợ". Ngữ cảnh chat được đẩy thẳng vào log để nhãn viên CSKH check & system cải thiện embeddings (nhận biết tone/từ lóng). |
+| Correction — user sửa | User sửa bằng cách nào? Data đó đi vào đâu? | User bấm phàn nàn hoặc "Gặp nhân viên hỗ trợ". Ngữ cảnh chat được đẩy thẳng vào log để nhãn viên CSKH check & system cải thiện embeddings (nhận biết từ lóng). |
 
 ---
 
@@ -65,7 +67,7 @@ Tại sao? Đối với ngành gọi xe & giao dịch, thà chatbot báo "Vấn 
 |---|---------|---------|------------|
 | 1 | Dùng từ lóng rành rẽ hoặc tiếng lóng địa phương ("xe hôi", "trừ đúp") | AI suy diễn sai intent và nhiệt tình hướng dẫn sai (vd: đưa FAQ cách huỷ chuyến, user tự làm sai hỏng việc) | Bắt buộc có nút "Không đúng" ở mỗi câu; cập nhật thủ công các intent lóng phổ biến vào vector DB. |
 | 2 | Truy vấn ở nhóm An toàn Khẩn cấp ("Nguy hiểm", "sao chém nhau") | AI tốn thời gian cố tra cứu RAG thay vì đưa Hotline cảnh sát / ứng trực | Bắt Keyword regex (hardcode). Nếu dính keyword nhóm "Sinh mạng/An toàn", bypass LLM và quăng ngay thẻ Hotline khẩn cấp. |
-| 3 | Chính sách trên app thay đổi nhưng KB chưa cập nhật | AI tự tin hướng dẫn user bấm vào một nút không tồn tại. User thử mãi không được. | Đồng bộ auto từ CMS lên VectorDB định kì. Thiết lập logic tự động handover sang CSKH sau 3 luồng chập. |
+| 3 | Chính sách trên app thay đổi nhưng KB chưa cập nhật | AI tự tin hướng dẫn user bấm vào một nút không tồn tại. User thử mãi không được. | Đồng bộ auto từ CMS lên VectorDB định kì. Thiết lập logic tự động handover sang CSKH nếu duyệt search engine luôn trả về 0 kết quả (hit score = 0). |
 
 ---
 
@@ -94,10 +96,10 @@ Hiện tại, người dùng lúng túng khi dò tìm danh sách FAQ dài lê th
 Xây dựng một chatbot đệm (Tier 1) có chức năng truy xuất Knowledge Base (FAQ) dựa vào Intent của người dùng (RAG pipeline). 
 - AI làm nhiệm vụ "trích xuất hướng dẫn" (đưa bullet point nhanh gọn, có link đến nút thao tác).
 - AI KHÔNG truy cập dữ liệu PII/hành trình, KHÔNG tự quyết định đền bù. 
-- Giới hạn: Nếu người dùng hỏi mập mờ, AI chỉ hỏi lại tối đa 2 lần kèm nút Chọn nhánh. Quá giới hạn, hoặc user phẫn nộ (nhận biết tone), hoặc đụng từ khóa sự cố tai nạn → Lập tức pass nguyên block tóm tắt bối cảnh chat sang Human CSKH.
+- Giới hạn: Khi AI không tìm được thông tin trên KB, khách hàng yêu cầu khiếu nại (intent triggers), hoặc đụng từ khóa sự cố tai nạn (safety triggers) → Lập tức pass nguyên block tóm tắt bối cảnh chat sang Human CSKH.
 
 **Giá trị cạnh tranh (Data Flywheel):**  
 Thay vì dùng FAQ tĩnh, hệ thống hấp thụ kho ngôn ngữ đặc thù của mảng gọi xe Việt Nam ("bị trừ đúp", "xe bốc mùi", "tài xế nói bậy"). Hành vi CSKH bóc tách và sửa sai cho AI sẽ tạo ra bản đồ "từ điển người Việt" mà đối thủ không thể học mót từ mô hình thuần túy.
 
 **Quy chuẩn rủi ro:**  
-Ưu tiên Precision. Mọi thông tin xuất ra phải có Reference từ nguồn XanhSM ban hành. Đường lui cực kỳ nhẹ nhàng, ưu tiên hành trình khách hàng đang giận dữ, chống "Bot loop". Lỗi nguy hiểm nhất là hướng dẫn user sai quy trình khẩn cấp, do đó bypass bằng hardcode keywords luôn được bật.
+Ưu tiên Precision. Mọi thông tin xuất ra phải có Reference từ nguồn XanhSM ban hành. Đường lui cực kỳ nhẹ nhàng, hỗ trợ người dùng khiếu nại hiệu quả (intent phrases), chống "Bot loop" nhờ fallback khi KB không phản hồi. Lỗi nguy hiểm nhất là hướng dẫn user sai quy trình khẩn cấp, do đó bypass bằng hardcode keywords luôn được bật.
