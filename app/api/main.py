@@ -35,6 +35,20 @@ def health(request: Request) -> HealthResponse:
     )
 
 
+def index(_: Request) -> dict:
+    return {
+        "name": "XanhSM Help Center AI",
+        "status": "ok",
+        "health": "/health",
+        "api_base": "/api/v1",
+    }
+
+
+def debug_headers(request: Request) -> dict:
+    # Development helper to diagnose browser CORS issues.
+    return {"headers": dict(request.headers)}
+
+
 def create_app(settings: Settings | None = None) -> FastAPI:
     active_settings = settings or Settings.load()
     app = FastAPI(title="XanhSM Help Center AI", version="1.0.0", lifespan=lifespan)
@@ -47,6 +61,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         allow_credentials=True,
     )
     app.include_router(router)
+    app.add_api_route("/", index, methods=["GET"])
+    app.add_api_route("/debug/headers", debug_headers, methods=["GET"])
     app.add_api_route("/health", health, methods=["GET"])
     return app
 

@@ -14,6 +14,7 @@ from .schemas import (
     FeedbackRequest,
     FeedbackResponse,
     KBHitResponse,
+    WebHitResponse,
     MessageItemResponse,
     MessageRequest,
     MessageResponse,
@@ -64,6 +65,10 @@ def _kb_hits_payload(hits) -> list[KBHitResponse]:
     ]
 
 
+def _web_hits_payload(hits) -> list[WebHitResponse]:
+    return [WebHitResponse(**hit) for hit in (hits or [])]
+
+
 def _metrics_payload(result) -> MetricsResponse:
     return MetricsResponse(**result.to_dict())
 
@@ -88,6 +93,25 @@ def _message_item_payload(message: ChatMessageRecord) -> MessageItemResponse:
     )
 
 
+def _memory_for_session(container, session_id: str):
+    # Pull all messages (includes prior memory summaries if any)
+    all_msgs = container.store.list_messages(session_id)
+    bundle, new_summary = container.memory_service.build(all_msgs, last_messages=10)
+    # Persist updated summary as a hidden message (we only ever use the latest one).
+    if new_summary is not None:
+        try:
+            container.store.add_message(
+                MessageWrite(
+                    session_id=session_id,
+                    actor="memory",
+                    content=new_summary,
+                )
+            )
+        except Exception:
+            pass
+    return bundle
+
+
 @router.post("/sessions")
 def create_session(request: Request) -> CreateSessionResponse:
     container = _container(request)
@@ -110,15 +134,18 @@ def get_session(request: Request, session_id: str) -> SessionDetailResponse:
         status=detail.session.status,
         created_at=_iso(detail.session.created_at),
         updated_at=_iso(detail.session.updated_at),
-        messages=[_message_item_payload(message) for message in detail.messages],
+        messages=[
+            _message_item_payload(message)
+            for message in detail.messages
+            if message.actor != "memory"
+        ],
     )
 
 
 @router.post("/sessions/{session_id}/messages")
 async def post_message(request: Request, session_id: str) -> MessageResponse:
     container = _container(request)
-    session_details = container.store.get_session_details(session_id)
-    if session_details is None:
+    if container.store.get_session(session_id) is None:
         raise HTTPException(404, "Session not found")
 
     try:
@@ -131,17 +158,17 @@ async def post_message(request: Request, session_id: str) -> MessageResponse:
     except ValidationError as exc:
         raise HTTPException(422, exc.errors()) from exc
 
+    memory = _memory_for_session(container, session_id)
+
     turn = container.chat_service.process(
         body.message,
+        memory_summary=memory.summary,
+        memory_turns=memory.turns,
         role_mode=body.role_mode,
         role_override=body.role_override,
         k=body.k,
         model=body.model,
-        session_details=session_details,
     )
-
-    if turn.new_summary is not None:
-        container.store.update_session_summary(session_id, turn.new_summary)
 
     user_message = container.store.add_message(
         MessageWrite(
@@ -186,6 +213,7 @@ async def post_message(request: Request, session_id: str) -> MessageResponse:
         answer=None if turn.answer is None else turn.answer.text,
         role_decision=_role_decision_payload(turn.role_decision),
         kb_hits=_kb_hits_payload(turn.kb_hits),
+        web_hits=_web_hits_payload(turn.web_hits),
         handoff_recommended=turn.handoff.recommended,
         handoff_reason=turn.handoff.reason,
         metrics=None if turn.answer is None else _metrics_payload(turn.answer),
@@ -203,8 +231,7 @@ async def post_message_stream(request: Request, session_id: str) -> StreamingRes
     - ``error`` — if the LLM call fails mid-stream.
     """
     container = _container(request)
-    session_details = container.store.get_session_details(session_id)
-    if session_details is None:
+    if container.store.get_session(session_id) is None:
         raise HTTPException(404, "Session not found")
 
     try:
@@ -218,17 +245,17 @@ async def post_message_stream(request: Request, session_id: str) -> StreamingRes
         raise HTTPException(422, exc.errors()) from exc
 
     # ── Pre-LLM work (sync, fast) ────────────────────────────────────────────
+    memory = _memory_for_session(container, session_id)
+
     prepared = container.chat_service.prepare(
         body.message,
+        memory_summary=memory.summary,
+        memory_turns=memory.turns,
         role_mode=body.role_mode,
         role_override=body.role_override,
         k=body.k,
         model=body.model,
-        session_details=session_details,
     )
-
-    if prepared.new_summary is not None:
-        container.store.update_session_summary(session_id, prepared.new_summary)
 
     user_message = container.store.add_message(
         MessageWrite(
@@ -284,7 +311,6 @@ async def post_message_stream(request: Request, session_id: str) -> StreamingRes
             async for item in chat_openai_stream_async(
                 prepared.prompt.system,
                 prepared.prompt.user,
-                history=prepared.prompt.history,
                 model=prepared.active_model,
             ):
                 if isinstance(item, str):

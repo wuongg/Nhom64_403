@@ -1,15 +1,11 @@
 <!DOCTYPE html>
 <html class="light" lang="vi">
-
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Xanh SM Support</title>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;800;900&family=Inter:wght@400;500;600&display=swap"
-    rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <script id="tailwind-config">
     tailwind.config = {
@@ -81,668 +77,538 @@
     };
   </script>
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
-    }
-
-    h1,
-    h2,
-    h3,
-    .brand-font {
-      font-family: 'Be Vietnam Pro', sans-serif;
-    }
-
+    body { font-family: 'Inter', sans-serif; }
+    h1, h2, h3, .brand-font { font-family: 'Be Vietnam Pro', sans-serif; }
     .material-symbols-outlined {
       font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
       user-select: none;
     }
-
-    .icon-filled {
-      font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-    }
-
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-
-    .bg-signature {
-      background: linear-gradient(135deg, #006a64 0%, #00b1a7 100%);
-    }
+    .icon-filled { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .bg-signature { background: linear-gradient(135deg, #006a64 0%, #00b1a7 100%); }
 
     @keyframes fadeSlideUp {
-      from {
-        opacity: 0;
-        transform: translateY(12px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
-
     @keyframes fadeSlideLeft {
-      from {
-        opacity: 0;
-        transform: translateX(16px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
+      from { opacity: 0; transform: translateX(16px); }
+      to   { opacity: 1; transform: translateX(0); }
     }
-
     @keyframes fadeSlideRight {
-      from {
-        opacity: 0;
-        transform: translateX(-16px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
+      from { opacity: 0; transform: translateX(-16px); }
+      to   { opacity: 1; transform: translateX(0); }
     }
-
-    .anim-up {
-      animation: fadeSlideUp 0.35s ease both;
-    }
-
-    .anim-left {
-      animation: fadeSlideLeft 0.35s ease both;
-    }
-
-    .anim-right {
-      animation: fadeSlideRight 0.35s ease both;
-    }
+    .anim-up    { animation: fadeSlideUp    0.35s ease both; }
+    .anim-left  { animation: fadeSlideLeft  0.35s ease both; }
+    .anim-right { animation: fadeSlideRight 0.35s ease both; }
 
     /* Typing dots */
-    @keyframes blink {
-
-      0%,
-      80%,
-      100% {
-        opacity: 0
-      }
-
-      40% {
-        opacity: 1
-      }
-    }
-
-    .typing-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 9999px;
-      background: #006a64;
-      animation: blink 1.2s infinite;
-    }
-
-    .typing-dot:nth-child(2) {
-      animation-delay: .2s
-    }
-
-    .typing-dot:nth-child(3) {
-      animation-delay: .4s
-    }
+    @keyframes blink { 0%,80%,100%{opacity:0} 40%{opacity:1} }
+    .typing-dot { width:7px;height:7px;border-radius:9999px;background:#006a64;animation:blink 1.2s infinite; }
+    .typing-dot:nth-child(2){animation-delay:.2s}
+    .typing-dot:nth-child(3){animation-delay:.4s}
 
     /* View transitions */
-    .view {
-      transition: opacity 0.25s ease;
-    }
-
-    .view.hidden {
-      display: none !important;
-    }
+    .view { transition: opacity 0.25s ease; }
+    .view.hidden { display: none !important; }
   </style>
 </head>
-
 <body class="bg-background text-on-surface min-h-screen">
 
-  <!-- ═══════════════════════════════════════════════════════
+<!-- ═══════════════════════════════════════════════════════
      WELCOME VIEW
 ════════════════════════════════════════════════════════ -->
-  <div id="view-welcome" class="view flex h-screen overflow-hidden">
+<div id="view-welcome" class="view flex h-screen overflow-hidden">
 
-    <!-- Sidebar -->
-    <aside
-      class="hidden md:flex flex-col h-full py-6 bg-surface-container-lowest w-64 border-r border-outline-variant/30 shrink-0">
-      <div class="px-6 mb-6">
-        <h1 class="text-xl font-black text-primary tracking-tight brand-font">Support Hub</h1>
-        <p class="text-sm text-tertiary mt-1">How can we help?</p>
+  <!-- Sidebar -->
+  <aside class="hidden md:flex flex-col h-full py-6 bg-surface-container-lowest w-64 border-r border-outline-variant/30 shrink-0">
+    <div class="px-6 mb-6">
+      <h1 class="text-xl font-black text-primary tracking-tight brand-font">Support Hub</h1>
+      <p class="text-sm text-tertiary mt-1">How can we help?</p>
+    </div>
+    <div class="px-4 mb-3">
+      <a class="flex items-center gap-3 px-4 py-3 text-primary font-bold border-r-4 border-primary bg-surface-container-low rounded-l-xl" href="#">
+        <span class="material-symbols-outlined icon-filled">forum</span>
+        <span class="font-medium">Live Chat</span>
+      </a>
+    </div>
+    <!-- Session history list -->
+    <div id="sidebar-sessions-welcome" class="flex-1 overflow-y-auto no-scrollbar px-4"></div>
+    <div class="px-4 mt-4">
+      <button onclick="handleNewInquiry()" class="w-full py-4 bg-signature text-white rounded-xl font-bold shadow-lg shadow-primary/20 flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all brand-font">
+        <span class="material-symbols-outlined">add</span>
+        New Inquiry
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="flex-1 flex flex-col relative bg-surface overflow-hidden">
+
+    <!-- Header -->
+    <header class="flex justify-between items-center px-6 py-4 bg-white/80 backdrop-blur-md shadow-sm z-10">
+      <span class="text-lg font-bold text-primary brand-font tracking-tight">Xanh SM Support</span>
+      <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-surface-container rounded-full" id="health-badge">
+        <div class="w-2 h-2 rounded-full bg-gray-400" id="health-dot"></div>
+        <span class="text-xs font-semibold text-tertiary uppercase tracking-wider" id="health-label">Đang kiểm tra...</span>
       </div>
-      <div class="px-4 mb-3">
-        <a class="flex items-center gap-3 px-4 py-3 text-primary font-bold border-r-4 border-primary bg-surface-container-low rounded-l-xl"
-          href="#">
-          <span class="material-symbols-outlined icon-filled">forum</span>
-          <span class="font-medium">Live Chat</span>
-        </a>
-      </div>
-      <!-- Session history list -->
-      <div id="sidebar-sessions-welcome" class="flex-1 overflow-y-auto no-scrollbar px-4"></div>
-      <div class="px-4 mt-4">
-        <button onclick="handleNewInquiry()"
-          class="w-full py-4 bg-signature text-white rounded-xl font-bold shadow-lg shadow-primary/20 flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all brand-font">
-          <span class="material-symbols-outlined">add</span>
-          New Inquiry
-        </button>
-      </div>
-    </aside>
+    </header>
 
-    <!-- Main -->
-    <main class="flex-1 flex flex-col relative bg-surface overflow-hidden">
+    <!-- Body: centered welcome content -->
+    <div class="flex-1 flex flex-col items-center justify-center px-6 pb-32 overflow-y-auto">
+      <div class="max-w-3xl w-full anim-up">
 
-      <!-- Header -->
-      <header class="flex justify-between items-center px-6 py-4 bg-white/80 backdrop-blur-md shadow-sm z-10">
-        <span class="text-lg font-bold text-primary brand-font tracking-tight">Xanh SM Support</span>
-        <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-surface-container rounded-full" id="health-badge">
-          <div class="w-2 h-2 rounded-full bg-gray-400" id="health-dot"></div>
-          <span class="text-xs font-semibold text-tertiary uppercase tracking-wider" id="health-label">Đang kiểm
-            tra...</span>
-        </div>
-      </header>
-
-      <!-- Body: centered welcome content -->
-      <div class="flex-1 flex flex-col items-center justify-center px-6 pb-32 overflow-y-auto">
-        <div class="max-w-3xl w-full anim-up">
-
-          <!-- Avatar + greeting -->
-          <div class="mb-10 text-center">
-            <div
-              class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-secondary-container mb-6 shadow-md">
-              <span class="material-symbols-outlined text-primary icon-filled"
-                style="font-size:2.5rem;">smart_toy</span>
-            </div>
-            <h2
-              class="text-4xl md:text-5xl font-extrabold brand-font text-on-surface tracking-tight mb-4 leading-tight">
-              Chào bạn,<br />
-              <span class="text-primary">Xanh SM</span> có thể giúp gì cho bạn?
-            </h2>
-            <p class="text-tertiary text-lg max-w-lg mx-auto">
-              Chúng tôi luôn sẵn sàng hỗ trợ giải đáp các thông tin thường gặp về dịch vụ Xanh SM cho người dùng, tài xế
-              và nhà hàng.
-            </p>
+        <!-- Avatar + greeting -->
+        <div class="mb-10 text-center">
+          <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-secondary-container mb-6 shadow-md">
+            <span class="material-symbols-outlined text-primary icon-filled" style="font-size:2.5rem;">smart_toy</span>
           </div>
-
-          <!-- Quick action cards -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-            <div onclick="quickSend('Hướng dẫn đặt xe và thanh toán qua ứng dụng')"
-              class="p-6 bg-surface-container-low rounded-xl relative overflow-hidden group hover:bg-surface-container transition-colors cursor-pointer border border-outline-variant/20 shadow-sm">
-              <h3 class="font-bold text-primary mb-2">Hướng dẫn sử dụng</h3>
-              <p class="text-sm text-on-surface-variant">Tìm hiểu cách đặt xe và thanh toán không tiền mặt qua ứng dụng.
-              </p>
-              <span
-                class="material-symbols-outlined absolute -bottom-2 -right-2 text-primary/10 group-hover:scale-110 transition-transform"
-                style="font-size:4rem;">menu_book</span>
-            </div>
-            <div onclick="quickSend('Chế độ lương, thưởng , phúc lợi, trách nhiệm của tài xế')"
-              class="p-6 bg-surface-container-low rounded-xl relative overflow-hidden group hover:bg-surface-container transition-colors cursor-pointer border border-outline-variant/20 shadow-sm">
-              <h3 class="font-bold text-primary mb-2">Câu hỏi thường gặp</h3>
-              <p class="text-sm text-on-surface-variant">Chế độ lương, thưởng , phúc lợi, trách nhiệm dành cho tài xế
-                Xanh SM</p>
-              <span
-                class="material-symbols-outlined absolute -bottom-2 -right-2 text-primary/10 group-hover:scale-110 transition-transform"
-                style="font-size:4rem;">quiz</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Welcome input bar (pinned bottom) -->
-      <div
-        class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-background via-background/95 to-transparent">
-        <div class="max-w-3xl mx-auto">
-          <div class="relative flex items-center">
-            <input id="welcome-input"
-              class="w-full py-4 pl-6 pr-16 bg-surface-container-highest border-none rounded-full text-on-surface focus:ring-2 focus:ring-primary/30 placeholder:text-on-surface-variant/50 shadow-inner outline-none"
-              placeholder="Nhập câu hỏi của bạn tại đây..." type="text"
-              onkeydown="if(event.key==='Enter')handleWelcomeSend()" />
-            <button onclick="handleWelcomeSend()"
-              class="absolute right-2 p-3 bg-signature text-white rounded-full hover:opacity-90 active:scale-90 transition-all shadow-md">
-              <span class="material-symbols-outlined icon-filled">send</span>
-            </button>
-          </div>
-          <p class="text-[10px] text-center text-tertiary mt-3 uppercase tracking-widest font-bold opacity-50">
-            AI-Powered Support System • Xanh SM
+          <h2 class="text-4xl md:text-5xl font-extrabold brand-font text-on-surface tracking-tight mb-4 leading-tight">
+            Chào bạn,<br/>
+            <span class="text-primary">Xanh SM</span> có thể giúp gì cho bạn?
+          </h2>
+          <p class="text-tertiary text-lg max-w-lg mx-auto">
+            Chúng tôi luôn sẵn sàng hỗ trợ các vấn đề về dịch vụ di chuyển và giao hàng 24/7.
           </p>
         </div>
-      </div>
-    </main>
 
-    <!-- Mobile bottom nav -->
-    <nav
-      class="md:hidden fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-md flex justify-around items-center py-3 px-6 z-50 border-t border-outline-variant/20">
-      <a class="flex flex-col items-center gap-1 text-tertiary" href="#">
-        <span class="material-symbols-outlined">help_center</span>
-        <span class="text-[10px] font-bold">Trợ giúp</span>
-      </a>
-      <a class="flex flex-col items-center gap-1 text-primary font-bold" href="#">
-        <span class="material-symbols-outlined icon-filled">forum</span>
-        <span class="text-[10px]">Chat</span>
-      </a>
-      <a class="flex flex-col items-center gap-1 text-tertiary" href="#">
-        <span class="material-symbols-outlined">confirmation_number</span>
-        <span class="text-[10px] font-bold">Yêu cầu</span>
-      </a>
-      <a class="flex flex-col items-center gap-1 text-tertiary" href="#">
-        <span class="material-symbols-outlined">person</span>
-        <span class="text-[10px] font-bold">Tôi</span>
-      </a>
-    </nav>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════════════
-     CHAT VIEW
-════════════════════════════════════════════════════════ -->
-  <div id="view-chat" class="view hidden flex h-screen overflow-hidden">
-
-    <!-- Sidebar -->
-    <aside
-      class="hidden md:flex flex-col h-screen py-6 bg-surface-container-lowest w-64 border-r border-outline-variant/30 shrink-0">
-      <div class="px-6 mb-6">
-        <h1 class="text-xl font-black text-primary tracking-tight brand-font">Support Hub</h1>
-        <p class="text-xs text-tertiary">How can we help?</p>
-      </div>
-      <div class="px-4 mb-3">
-        <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-primary bg-primary/5 font-bold border-r-4 border-primary"
-          href="#">
-          <span class="material-symbols-outlined icon-filled">forum</span>
-          <span class="font-medium">Live Chat</span>
-        </a>
-      </div>
-      <!-- Session history list -->
-      <div id="sidebar-sessions-chat" class="flex-1 overflow-y-auto no-scrollbar px-4"></div>
-      <div class="px-4 mt-4">
-        <button onclick="handleNewInquiry()"
-          class="w-full flex items-center justify-center gap-2 bg-signature text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/10 hover:opacity-90 transition-all active:scale-95 brand-font">
-          <span class="material-symbols-outlined">add</span>
-          New Inquiry
-        </button>
-      </div>
-    </aside>
-
-    <!-- Main chat canvas -->
-    <main class="flex-1 flex flex-col h-screen relative bg-surface-container-low overflow-hidden">
-
-      <!-- TopAppBar -->
-      <header class="flex justify-between items-center px-6 py-4 bg-white/80 backdrop-blur-md z-10 shadow-sm">
-        <div class="flex items-center gap-4">
-          <button class="md:hidden p-1 text-tertiary" onclick="handleNewInquiry()">
-            <span class="material-symbols-outlined">arrow_back</span>
-          </button>
-          <span class="text-lg font-bold text-primary brand-font tracking-tight">Xanh SM Support</span>
-        </div>
-        <div class="flex items-center gap-4">
-          <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-surface-container-highest/50 rounded-full">
-            <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-            <span class="text-xs font-semibold text-primary uppercase tracking-wider">Bot Online</span>
+        <!-- Quick action cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+          <div onclick="quickSend('Hướng dẫn đặt xe và thanh toán qua ứng dụng')"
+               class="p-6 bg-surface-container-low rounded-xl relative overflow-hidden group hover:bg-surface-container transition-colors cursor-pointer border border-outline-variant/20 shadow-sm">
+            <h3 class="font-bold text-primary mb-2">Hướng dẫn sử dụng</h3>
+            <p class="text-sm text-on-surface-variant">Tìm hiểu cách đặt xe và thanh toán không tiền mặt qua ứng dụng.</p>
+            <span class="material-symbols-outlined absolute -bottom-2 -right-2 text-primary/10 group-hover:scale-110 transition-transform" style="font-size:4rem;">menu_book</span>
           </div>
-          <button onclick="handleNewInquiry()"
-            class="p-2 text-tertiary hover:opacity-80 transition-opacity active:scale-95" title="Kết thúc chat">
-            <span class="material-symbols-outlined">close</span>
-          </button>
-        </div>
-      </header>
-
-      <!-- Message history -->
-      <section id="chat-messages" class="flex-1 overflow-y-auto p-6 md:p-8 space-y-6 no-scrollbar pb-4">
-        <!-- Messages rendered here by JS -->
-      </section>
-
-      <!-- Input area -->
-      <footer class="p-4 md:p-6 bg-surface-container-lowest/90 backdrop-blur-md border-t border-outline-variant/20">
-        <div
-          class="max-w-4xl mx-auto flex items-end gap-3 p-2 bg-surface-container-low rounded-[1.5rem] shadow-inner border border-outline-variant/10">
-          <div class="flex-1 relative">
-            <textarea id="chat-input"
-              class="w-full bg-transparent border-none focus:ring-0 py-3 px-3 text-sm text-on-surface placeholder-on-surface-variant/50 resize-none max-h-32 overflow-y-auto outline-none leading-relaxed"
-              placeholder="Nhập câu hỏi của bạn..." rows="1" onkeydown="handleChatKey(event)"
-              oninput="autoResize(this)"></textarea>
+          <div onclick="quickSend('Các câu hỏi thường gặp về giá cước và khu vực phục vụ')"
+               class="p-6 bg-surface-container-low rounded-xl relative overflow-hidden group hover:bg-surface-container transition-colors cursor-pointer border border-outline-variant/20 shadow-sm">
+            <h3 class="font-bold text-primary mb-2">Câu hỏi thường gặp</h3>
+            <p class="text-sm text-on-surface-variant">Giải đáp nhanh các thắc mắc về giá cước và khu vực phục vụ.</p>
+            <span class="material-symbols-outlined absolute -bottom-2 -right-2 text-primary/10 group-hover:scale-110 transition-transform" style="font-size:4rem;">quiz</span>
           </div>
-          <button id="send-btn" onclick="handleChatSend()"
-            class="w-12 h-12 bg-primary text-white rounded-2xl flex items-center justify-center shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all shrink-0 disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100">
+        </div>
+      </div>
+    </div>
+
+    <!-- Welcome input bar (pinned bottom) -->
+    <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-background via-background/95 to-transparent">
+      <div class="max-w-3xl mx-auto">
+        <div class="relative flex items-center">
+          <input id="welcome-input"
+            class="w-full py-4 pl-6 pr-16 bg-surface-container-highest border-none rounded-full text-on-surface focus:ring-2 focus:ring-primary/30 placeholder:text-on-surface-variant/50 shadow-inner outline-none"
+            placeholder="Nhập câu hỏi của bạn tại đây..."
+            type="text"
+            onkeydown="if(event.key==='Enter')handleWelcomeSend()" />
+          <button onclick="handleWelcomeSend()"
+            class="absolute right-2 p-3 bg-signature text-white rounded-full hover:opacity-90 active:scale-90 transition-all shadow-md">
             <span class="material-symbols-outlined icon-filled">send</span>
           </button>
         </div>
-        <!-- Quick chips -->
-        <div id="quick-chips" class="max-w-4xl mx-auto flex gap-2 mt-4 px-2 overflow-x-auto pb-1 no-scrollbar">
-          <button onclick="quickSend('Đặt xe như thế nào?')" class="chip">Đặt xe như thế nào?</button>
-          <button onclick="quickSend('Bảng giá dịch vụ hiện tại')" class="chip">Bảng giá dịch vụ</button>
-          <button onclick="quickSend('Các loại hình dịch vụ Xanh SM')" class="chip">Các loại hình dịch vụ</button>
-          <button onclick="quickSend('Cách xuất hóa đơn VAT')" class="chip">Xuất hóa đơn VAT</button>
-          <button onclick="quickSend('Phương thức thanh toán')" class="chip">Thanh toán</button>
-        </div>
-      </footer>
-    </main>
-  </div>
+        <p class="text-[10px] text-center text-tertiary mt-3 uppercase tracking-widest font-bold opacity-50">
+          AI-Powered Support System • Xanh SM
+        </p>
+      </div>
+    </div>
+  </main>
 
-  <!-- ═══════════════════════════════════════════════════════
+  <!-- Mobile bottom nav -->
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-md flex justify-around items-center py-3 px-6 z-50 border-t border-outline-variant/20">
+    <a class="flex flex-col items-center gap-1 text-tertiary" href="#">
+      <span class="material-symbols-outlined">help_center</span>
+      <span class="text-[10px] font-bold">Trợ giúp</span>
+    </a>
+    <a class="flex flex-col items-center gap-1 text-primary font-bold" href="#">
+      <span class="material-symbols-outlined icon-filled">forum</span>
+      <span class="text-[10px]">Chat</span>
+    </a>
+    <a class="flex flex-col items-center gap-1 text-tertiary" href="#">
+      <span class="material-symbols-outlined">confirmation_number</span>
+      <span class="text-[10px] font-bold">Yêu cầu</span>
+    </a>
+    <a class="flex flex-col items-center gap-1 text-tertiary" href="#">
+      <span class="material-symbols-outlined">person</span>
+      <span class="text-[10px] font-bold">Tôi</span>
+    </a>
+  </nav>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     CHAT VIEW
+════════════════════════════════════════════════════════ -->
+<div id="view-chat" class="view hidden flex h-screen overflow-hidden">
+
+  <!-- Sidebar -->
+  <aside class="hidden md:flex flex-col h-screen py-6 bg-surface-container-lowest w-64 border-r border-outline-variant/30 shrink-0">
+    <div class="px-6 mb-6">
+      <h1 class="text-xl font-black text-primary tracking-tight brand-font">Support Hub</h1>
+      <p class="text-xs text-tertiary">How can we help?</p>
+    </div>
+    <div class="px-4 mb-3">
+      <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-primary bg-primary/5 font-bold border-r-4 border-primary" href="#">
+        <span class="material-symbols-outlined icon-filled">forum</span>
+        <span class="font-medium">Live Chat</span>
+      </a>
+    </div>
+    <!-- Session history list -->
+    <div id="sidebar-sessions-chat" class="flex-1 overflow-y-auto no-scrollbar px-4"></div>
+    <div class="px-4 mt-4">
+      <button onclick="handleNewInquiry()"
+        class="w-full flex items-center justify-center gap-2 bg-signature text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/10 hover:opacity-90 transition-all active:scale-95 brand-font">
+        <span class="material-symbols-outlined">add</span>
+        New Inquiry
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main chat canvas -->
+  <main class="flex-1 flex flex-col h-screen relative bg-surface-container-low overflow-hidden">
+
+    <!-- TopAppBar -->
+    <header class="flex justify-between items-center px-6 py-4 bg-white/80 backdrop-blur-md z-10 shadow-sm">
+      <div class="flex items-center gap-4">
+        <button class="md:hidden p-1 text-tertiary" onclick="handleNewInquiry()">
+          <span class="material-symbols-outlined">arrow_back</span>
+        </button>
+        <span class="text-lg font-bold text-primary brand-font tracking-tight">Xanh SM Support</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-surface-container-highest/50 rounded-full">
+          <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+          <span class="text-xs font-semibold text-primary uppercase tracking-wider">Bot Online</span>
+        </div>
+        <button onclick="handleNewInquiry()" class="p-2 text-tertiary hover:opacity-80 transition-opacity active:scale-95" title="Kết thúc chat">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Message history -->
+    <section id="chat-messages" class="flex-1 overflow-y-auto p-6 md:p-8 space-y-6 no-scrollbar pb-4">
+      <!-- Messages rendered here by JS -->
+    </section>
+
+    <!-- Input area -->
+    <footer class="p-4 md:p-6 bg-surface-container-lowest/90 backdrop-blur-md border-t border-outline-variant/20">
+      <div class="max-w-4xl mx-auto flex items-end gap-3 p-2 bg-surface-container-low rounded-[1.5rem] shadow-inner border border-outline-variant/10">
+        <div class="flex-1 relative">
+          <textarea id="chat-input"
+            class="w-full bg-transparent border-none focus:ring-0 py-3 px-3 text-sm text-on-surface placeholder-on-surface-variant/50 resize-none max-h-32 overflow-y-auto outline-none leading-relaxed"
+            placeholder="Nhập câu hỏi của bạn..."
+            rows="1"
+            onkeydown="handleChatKey(event)"
+            oninput="autoResize(this)"></textarea>
+        </div>
+        <button id="send-btn" onclick="handleChatSend()"
+          class="w-12 h-12 bg-primary text-white rounded-2xl flex items-center justify-center shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all shrink-0 disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100">
+          <span class="material-symbols-outlined icon-filled">send</span>
+        </button>
+      </div>
+      <!-- Quick chips -->
+      <div id="quick-chips" class="max-w-4xl mx-auto flex gap-2 mt-4 px-2 overflow-x-auto pb-1 no-scrollbar">
+        <button onclick="quickSend('Đặt xe như thế nào?')" class="chip">Đặt xe như thế nào?</button>
+        <button onclick="quickSend('Bảng giá dịch vụ hiện tại')" class="chip">Bảng giá dịch vụ</button>
+        <button onclick="quickSend('Các loại hình dịch vụ Xanh SM')" class="chip">Các loại hình dịch vụ</button>
+        <button onclick="quickSend('Cách xuất hóa đơn VAT')" class="chip">Xuất hóa đơn VAT</button>
+        <button onclick="quickSend('Phương thức thanh toán')" class="chip">Thanh toán</button>
+      </div>
+    </footer>
+  </main>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
      FEEDBACK MODAL
 ════════════════════════════════════════════════════════ -->
-  <div id="feedback-modal" class="fixed inset-0 z-50 hidden flex items-end md:items-center justify-center">
-    <!-- Backdrop -->
-    <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" onclick="closeFeedbackModal()"></div>
-    <!-- Sheet -->
-    <div
-      class="relative bg-surface-container-lowest rounded-t-3xl md:rounded-3xl w-full md:max-w-md p-8 shadow-2xl z-10 anim-up">
-      <h3 class="text-lg font-bold brand-font text-on-surface mb-1">Phản hồi câu trả lời</h3>
-      <p class="text-sm text-tertiary mb-6">Hãy cho chúng tôi biết vấn đề bạn gặp phải.</p>
+<div id="feedback-modal" class="fixed inset-0 z-50 hidden flex items-end md:items-center justify-center">
+  <!-- Backdrop -->
+  <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" onclick="closeFeedbackModal()"></div>
+  <!-- Sheet -->
+  <div class="relative bg-surface-container-lowest rounded-t-3xl md:rounded-3xl w-full md:max-w-md p-8 shadow-2xl z-10 anim-up">
+    <h3 class="text-lg font-bold brand-font text-on-surface mb-1">Phản hồi câu trả lời</h3>
+    <p class="text-sm text-tertiary mb-6">Hãy cho chúng tôi biết vấn đề bạn gặp phải.</p>
 
-      <!-- Reason chips -->
-      <p class="text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-3">Lý do</p>
-      <div class="flex flex-wrap gap-2 mb-5" id="reason-chips">
-        <button class="reason-chip active" data-reason="wrong_answer">Câu trả lời sai</button>
-        <button class="reason-chip" data-reason="wrong_intent">Hiểu sai ý</button>
-        <button class="reason-chip" data-reason="missing_info">Thiếu thông tin</button>
-        <button class="reason-chip" data-reason="handoff_needed">Cần chuyển tư vấn viên</button>
-        <button class="reason-chip" data-reason="other">Khác</button>
-      </div>
+    <!-- Reason chips -->
+    <p class="text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-3">Lý do</p>
+    <div class="flex flex-wrap gap-2 mb-5" id="reason-chips">
+      <button class="reason-chip active" data-reason="wrong_answer">Câu trả lời sai</button>
+      <button class="reason-chip" data-reason="wrong_intent">Hiểu sai ý</button>
+      <button class="reason-chip" data-reason="missing_info">Thiếu thông tin</button>
+      <button class="reason-chip" data-reason="handoff_needed">Cần chuyển tư vấn viên</button>
+      <button class="reason-chip" data-reason="other">Khác</button>
+    </div>
 
-      <!-- Note -->
-      <p class="text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-3">Ghi chú (tuỳ chọn)</p>
-      <textarea id="feedback-note"
-        class="w-full rounded-xl border border-outline-variant bg-surface-container-low p-3 text-sm text-on-surface placeholder-on-surface-variant/50 focus:ring-2 focus:ring-primary/30 outline-none resize-none mb-6"
-        rows="3" placeholder="Mô tả thêm vấn đề bạn gặp phải..."></textarea>
+    <!-- Note -->
+    <p class="text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-3">Ghi chú (tuỳ chọn)</p>
+    <textarea id="feedback-note"
+      class="w-full rounded-xl border border-outline-variant bg-surface-container-low p-3 text-sm text-on-surface placeholder-on-surface-variant/50 focus:ring-2 focus:ring-primary/30 outline-none resize-none mb-6"
+      rows="3" placeholder="Mô tả thêm vấn đề bạn gặp phải..."></textarea>
 
-      <div class="flex gap-3">
-        <button onclick="closeFeedbackModal()"
-          class="flex-1 py-3 rounded-xl border border-outline-variant text-on-surface-variant font-semibold hover:bg-surface-container transition-colors text-sm">
-          Huỷ
-        </button>
-        <button onclick="submitFeedbackModal()"
-          class="flex-1 py-3 rounded-xl bg-primary text-white font-bold hover:opacity-90 active:scale-95 transition-all text-sm shadow-lg shadow-primary/20">
-          Gửi phản hồi
-        </button>
-      </div>
+    <div class="flex gap-3">
+      <button onclick="closeFeedbackModal()" class="flex-1 py-3 rounded-xl border border-outline-variant text-on-surface-variant font-semibold hover:bg-surface-container transition-colors text-sm">
+        Huỷ
+      </button>
+      <button onclick="submitFeedbackModal()" class="flex-1 py-3 rounded-xl bg-primary text-white font-bold hover:opacity-90 active:scale-95 transition-all text-sm shadow-lg shadow-primary/20">
+        Gửi phản hồi
+      </button>
     </div>
   </div>
+</div>
 
-  <!-- ═══════════════════════════════════════════════════════
+<!-- ═══════════════════════════════════════════════════════
      TOAST
 ════════════════════════════════════════════════════════ -->
-  <div id="toast" class="fixed top-6 right-6 z-50 hidden">
-    <div id="toast-inner"
-      class="flex items-center gap-3 px-5 py-4 rounded-2xl shadow-xl text-sm font-medium anim-up max-w-xs">
-      <span class="material-symbols-outlined text-lg" id="toast-icon">check_circle</span>
-      <span id="toast-text"></span>
-    </div>
+<div id="toast" class="fixed top-6 right-6 z-50 hidden">
+  <div id="toast-inner" class="flex items-center gap-3 px-5 py-4 rounded-2xl shadow-xl text-sm font-medium anim-up max-w-xs">
+    <span class="material-symbols-outlined text-lg" id="toast-icon">check_circle</span>
+    <span id="toast-text"></span>
   </div>
+</div>
 
-  <style>
-    .chip {
-      white-space: nowrap;
-      padding: 0.4rem 1rem;
-      border-radius: 9999px;
-      background: rgba(191, 231, 232, 0.3);
-      border: 1px solid #bfe7e8;
-      color: #43696a;
-      font-size: 0.75rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.15s;
-      flex-shrink: 0;
-    }
+<style>
+  .chip {
+    white-space: nowrap;
+    padding: 0.4rem 1rem;
+    border-radius: 9999px;
+    background: rgba(191,231,232,0.3);
+    border: 1px solid #bfe7e8;
+    color: #43696a;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+    flex-shrink: 0;
+  }
+  .chip:hover { background: #bfe7e8; }
 
-    .chip:hover {
-      background: #bfe7e8;
-    }
+  .reason-chip {
+    padding: 0.35rem 0.875rem;
+    border-radius: 9999px;
+    border: 1.5px solid #bbc9c7;
+    color: #3c4948;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: transparent;
+  }
+  .reason-chip:hover { background: #f0eded; }
+  .reason-chip.active {
+    background: #006a64;
+    border-color: #006a64;
+    color: #fff;
+  }
 
-    .reason-chip {
-      padding: 0.35rem 0.875rem;
-      border-radius: 9999px;
-      border: 1.5px solid #bbc9c7;
-      color: #3c4948;
-      font-size: 0.75rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.15s;
-      background: transparent;
-    }
+  /* Blinking cursor during streaming */
+  .streaming-body::after {
+    content: '▋';
+    display: inline-block;
+    color: #006a64;
+    animation: blink 0.9s step-end infinite;
+    margin-left: 1px;
+    font-size: 0.85em;
+    vertical-align: baseline;
+  }
+  /* Remove cursor once streaming finishes (class replaced) */
+  .prose::after { display: none; }
 
-    .reason-chip:hover {
-      background: #f0eded;
-    }
+  .session-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    width: 100%;
+    text-align: left;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.625rem;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .session-item:hover { background: #f0eded; }
+  .session-item.active { background: #f0eded; border-right: 3px solid #006a64; }
+  .session-copy {
+    flex: 1;
+    min-width: 0;
+  }
+  .session-item .del-btn {
+    opacity: 0;
+    padding: 0.15rem;
+    color: #6c7a78;
+    transition: opacity 0.15s, color 0.15s;
+    background: none;
+    border: none;
+    cursor: pointer;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .session-item:hover .del-btn,
+  .session-item:focus-within .del-btn { opacity: 1; }
+  .del-btn:hover { color: #ba1a1a !important; }
 
-    .reason-chip.active {
-      background: #006a64;
-      border-color: #006a64;
-      color: #fff;
-    }
+  .metric-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    background: #f0eded;
+    border: 1px solid #e5e2e1;
+    color: #3c4948;
+    font-size: 0.68rem;
+    font-family: 'Inter', monospace;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+</style>
 
-    /* Blinking cursor during streaming */
-    .streaming-body::after {
-      content: '▋';
-      display: inline-block;
-      color: #006a64;
-      animation: blink 0.9s step-end infinite;
-      margin-left: 1px;
-      font-size: 0.85em;
-      vertical-align: baseline;
-    }
+<script>
+/* ============================================================
+   STATE
+============================================================ */
+const API_BASE = 'http://127.0.0.1:8001';
 
-    /* Remove cursor once streaming finishes (class replaced) */
-    .prose::after {
-      display: none;
-    }
+const state = {
+  sessionId: null,
+  view: 'welcome',   // 'welcome' | 'chat'
+  loading: false,
+  feedbackTarget: null,  // { messageId }
+  selectedReason: 'wrong_answer',
+};
 
-    .session-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.5rem;
-      width: 100%;
-      text-align: left;
-      padding: 0.5rem 0.75rem;
-      border-radius: 0.625rem;
-      cursor: pointer;
-      transition: background 0.15s;
-    }
+/* ============================================================
+   API HELPERS
+============================================================ */
+async function apiCall(path, options = {}) {
+  const res = await fetch(API_BASE + path, {
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    ...options,
+  });
+  if (!res.ok) {
+    const text = await res.text().catch(() => '');
+    throw new Error(`HTTP ${res.status}: ${text}`);
+  }
+  return res.json();
+}
 
-    .session-item:hover {
-      background: #f0eded;
-    }
+async function createSession() {
+  const data = await apiCall('/api/v1/sessions', { method: 'POST', body: '{}' });
+  state.sessionId = data.session_id;
+  return data;
+}
 
-    .session-item.active {
-      background: #f0eded;
-      border-right: 3px solid #006a64;
-    }
+async function postMessage(text) {
+  if (!state.sessionId) await createSession();
+  return apiCall(`/api/v1/sessions/${state.sessionId}/messages`, {
+    method: 'POST',
+    body: JSON.stringify({ message: text, role_mode: 'rule' }),
+  });
+}
 
-    .session-copy {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .session-item .del-btn {
-      opacity: 0;
-      padding: 0.15rem;
-      color: #6c7a78;
-      transition: opacity 0.15s, color 0.15s;
-      background: none;
-      border: none;
-      cursor: pointer;
-      line-height: 1;
-      flex-shrink: 0;
-    }
-
-    .session-item:hover .del-btn,
-    .session-item:focus-within .del-btn {
-      opacity: 1;
-    }
-
-    .del-btn:hover {
-      color: #ba1a1a !important;
-    }
-
-    .metric-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 3px;
-      padding: 2px 8px;
-      border-radius: 9999px;
-      background: #f0eded;
-      border: 1px solid #e5e2e1;
-      color: #3c4948;
-      font-size: 0.68rem;
-      font-family: 'Inter', monospace;
-      font-weight: 600;
-      white-space: nowrap;
-    }
-  </style>
-
-  <script>
-    /* ============================================================
-       STATE
-    ============================================================ */
-    const API_BASE = 'http://127.0.0.1:8000';
-
-    const state = {
-      sessionId: null,
-      view: 'welcome',   // 'welcome' | 'chat'
-      loading: false,
-      feedbackTarget: null,  // { messageId }
-      selectedReason: 'wrong_answer',
-    };
-
-    /* ============================================================
-       API HELPERS
-    ============================================================ */
-    async function apiCall(path, options = {}) {
-      const res = await fetch(API_BASE + path, {
-        headers: { 'Content-Type': 'application/json; charset=utf-8' },
-        ...options,
-      });
-      if (!res.ok) {
-        const text = await res.text().catch(() => '');
-        throw new Error(`HTTP ${res.status}: ${text}`);
-      }
-      return res.json();
-    }
-
-    async function createSession() {
-      const data = await apiCall('/api/v1/sessions', { method: 'POST', body: '{}' });
-      state.sessionId = data.session_id;
-      return data;
-    }
-
-    async function postMessage(text) {
-      if (!state.sessionId) await createSession();
-      return apiCall(`/api/v1/sessions/${state.sessionId}/messages`, {
-        method: 'POST',
-        body: JSON.stringify({ message: text, role_mode: 'rule' }),
-      });
-    }
-
-    /** Async generator: parses raw SSE stream from a fetch Response. */
-    async function* parseSSE(response) {
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-      let buffer = '';
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split('\n');
-        buffer = lines.pop();
-        for (const line of lines) {
-          if (line.startsWith('data: ')) {
-            const json = line.slice(6).trim();
-            if (json) {
-              try { yield JSON.parse(json); } catch { /* skip malformed */ }
-            }
-          }
+/** Async generator: parses raw SSE stream from a fetch Response. */
+async function* parseSSE(response) {
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = '';
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    buffer += decoder.decode(value, { stream: true });
+    const lines = buffer.split('\n');
+    buffer = lines.pop();
+    for (const line of lines) {
+      if (line.startsWith('data: ')) {
+        const json = line.slice(6).trim();
+        if (json) {
+          try { yield JSON.parse(json); } catch { /* skip malformed */ }
         }
       }
     }
+  }
+}
 
-    async function postFeedback(messageId, verdict, reason, note) {
-      return apiCall(`/api/v1/sessions/${state.sessionId}/feedback`, {
-        method: 'POST',
-        body: JSON.stringify({ message_id: messageId, verdict, reason, note: note || undefined }),
-      });
-    }
+async function postFeedback(messageId, verdict, reason, note) {
+  return apiCall(`/api/v1/sessions/${state.sessionId}/feedback`, {
+    method: 'POST',
+    body: JSON.stringify({ message_id: messageId, verdict, reason, note: note || undefined }),
+  });
+}
 
-    async function checkHealth() {
-      try {
-        const data = await apiCall('/health');
-        const dot = document.getElementById('health-dot');
-        const lbl = document.getElementById('health-label');
-        if (dot && lbl) {
-          if (data.status === 'ok') {
-            dot.className = 'w-2 h-2 rounded-full bg-green-500 animate-pulse';
-            lbl.textContent = 'Bot Online';
-            lbl.className = 'text-xs font-semibold text-primary uppercase tracking-wider';
-          } else {
-            dot.className = 'w-2 h-2 rounded-full bg-amber-400';
-            lbl.textContent = 'Hạn chế';
-            lbl.className = 'text-xs font-semibold text-amber-600 uppercase tracking-wider';
-          }
-        }
-      } catch {
-        const dot = document.getElementById('health-dot');
-        const lbl = document.getElementById('health-label');
-        if (dot) dot.className = 'w-2 h-2 rounded-full bg-red-400';
-        if (lbl) { lbl.textContent = 'Offline'; lbl.className = 'text-xs font-semibold text-error uppercase tracking-wider'; }
+async function checkHealth() {
+  try {
+    const data = await apiCall('/health');
+    const dot  = document.getElementById('health-dot');
+    const lbl  = document.getElementById('health-label');
+    if (dot && lbl) {
+      if (data.status === 'ok') {
+        dot.className = 'w-2 h-2 rounded-full bg-green-500 animate-pulse';
+        lbl.textContent = 'Bot Online';
+        lbl.className = 'text-xs font-semibold text-primary uppercase tracking-wider';
+      } else {
+        dot.className = 'w-2 h-2 rounded-full bg-amber-400';
+        lbl.textContent = 'Hạn chế';
+        lbl.className = 'text-xs font-semibold text-amber-600 uppercase tracking-wider';
       }
     }
+  } catch {
+    const dot = document.getElementById('health-dot');
+    const lbl = document.getElementById('health-label');
+    if (dot) dot.className = 'w-2 h-2 rounded-full bg-red-400';
+    if (lbl) { lbl.textContent = 'Offline'; lbl.className = 'text-xs font-semibold text-error uppercase tracking-wider'; }
+  }
+}
 
-    /* ============================================================
-       SESSION HISTORY (localStorage)
-    ============================================================ */
-    const HISTORY_KEY = 'xanhsm_sessions';
-    const HISTORY_MAX = 20;
+/* ============================================================
+   SESSION HISTORY (localStorage)
+============================================================ */
+const HISTORY_KEY = 'xanhsm_sessions';
+const HISTORY_MAX = 20;
 
-    function getSessionHistory() {
-      try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); }
-      catch { return []; }
-    }
+function getSessionHistory() {
+  try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); }
+  catch { return []; }
+}
 
-    function saveSessionToHistory(id, title) {
-      const list = getSessionHistory().filter(s => s.id !== id);
-      list.unshift({ id, title: title.slice(0, 60), ts: new Date().toISOString() });
-      localStorage.setItem(HISTORY_KEY, JSON.stringify(list.slice(0, HISTORY_MAX)));
-      renderSidebarSessions();
-    }
+function saveSessionToHistory(id, title) {
+  const list = getSessionHistory().filter(s => s.id !== id);
+  list.unshift({ id, title: title.slice(0, 60), ts: new Date().toISOString() });
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(list.slice(0, HISTORY_MAX)));
+  renderSidebarSessions();
+}
 
-    function deleteSessionFromHistory(id) {
-      const list = getSessionHistory().filter(s => s.id !== id);
-      localStorage.setItem(HISTORY_KEY, JSON.stringify(list));
-      // If deleted the current session, go back to welcome
-      if (state.sessionId === id) {
-        state.sessionId = null;
-        document.getElementById('chat-messages').innerHTML = '';
-        showView('welcome');
-      }
-      renderSidebarSessions();
-    }
+function deleteSessionFromHistory(id) {
+  const list = getSessionHistory().filter(s => s.id !== id);
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(list));
+  // If deleted the current session, go back to welcome
+  if (state.sessionId === id) {
+    state.sessionId = null;
+    document.getElementById('chat-messages').innerHTML = '';
+    showView('welcome');
+  }
+  renderSidebarSessions();
+}
 
-    function fmtRelativeTime(iso) {
-      const diff = Date.now() - new Date(iso).getTime();
-      const m = Math.floor(diff / 60000);
-      if (m < 1) return 'Vừa xong';
-      if (m < 60) return `${m} phút trước`;
-      const h = Math.floor(m / 60);
-      if (h < 24) return `${h} giờ trước`;
-      const d = Math.floor(h / 24);
-      if (d < 7) return `${d} ngày trước`;
-      return new Date(iso).toLocaleDateString('vi-VN');
-    }
+function fmtRelativeTime(iso) {
+  const diff = Date.now() - new Date(iso).getTime();
+  const m = Math.floor(diff / 60000);
+  if (m < 1)  return 'Vừa xong';
+  if (m < 60) return `${m} phút trước`;
+  const h = Math.floor(m / 60);
+  if (h < 24) return `${h} giờ trước`;
+  const d = Math.floor(h / 24);
+  if (d < 7)  return `${d} ngày trước`;
+  return new Date(iso).toLocaleDateString('vi-VN');
+}
 
-    function renderSidebarSessions() {
-      const list = getSessionHistory();
-      ['sidebar-sessions-welcome', 'sidebar-sessions-chat'].forEach(id => {
-        const el = document.getElementById(id);
-        if (!el) return;
+function renderSidebarSessions() {
+  const list = getSessionHistory();
+  ['sidebar-sessions-welcome', 'sidebar-sessions-chat'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
 
-        if (list.length === 0) { el.innerHTML = ''; return; }
+    if (list.length === 0) { el.innerHTML = ''; return; }
 
-        const items = list.map(s => {
-          const active = s.id === state.sessionId ? 'active' : '';
-          return `
+    const items = list.map(s => {
+      const active = s.id === state.sessionId ? 'active' : '';
+      return `
         <div class="session-item ${active}" role="button" tabindex="0"
           onclick="loadSession('${s.id}')"
           onkeydown="if(event.key==='Enter' || event.key===' '){ event.preventDefault(); loadSession('${s.id}'); }">
@@ -757,238 +623,265 @@
             <p class="text-[10px] text-tertiary mt-0.5">${fmtRelativeTime(s.ts)}</p>
           </div>
         </div>`;
-        }).join('');
+    }).join('');
 
-        el.innerHTML = `
+    el.innerHTML = `
       <p class="text-[10px] font-bold uppercase tracking-widest text-tertiary/60 px-1 mb-2 mt-1">Lịch sử</p>
       <div class="space-y-0.5">${items}</div>`;
-      });
+  });
+}
+
+/* ============================================================
+   LOAD OLD SESSION
+============================================================ */
+async function loadSession(id) {
+  if (state.loading) return;
+  if (state.sessionId === id && state.view === 'chat') return;
+
+  showView('chat');
+  document.getElementById('chat-messages').innerHTML = '';
+  document.getElementById('quick-chips')?.classList.add('hidden');
+  state.sessionId = id;
+  renderSidebarSessions();
+
+  appendMessage(renderTypingIndicator());
+  try {
+    const data = await apiCall(`/api/v1/sessions/${id}`);
+    removeTypingIndicator();
+
+    if (!data.messages || data.messages.length === 0) {
+      const empty = document.createElement('div');
+      empty.className = 'flex items-center justify-center h-full';
+      empty.innerHTML = '<p class="text-sm text-tertiary">Chưa có tin nhắn nào trong session này.</p>';
+      document.getElementById('chat-messages').appendChild(empty);
+      return;
     }
 
-    /* ============================================================
-       LOAD OLD SESSION
-    ============================================================ */
-    async function loadSession(id) {
-      if (state.loading) return;
-      if (state.sessionId === id && state.view === 'chat') return;
-
-      showView('chat');
-      document.getElementById('chat-messages').innerHTML = '';
-      document.getElementById('quick-chips')?.classList.add('hidden');
-      state.sessionId = id;
-      renderSidebarSessions();
-
-      appendMessage(renderTypingIndicator());
-      try {
-        const data = await apiCall(`/api/v1/sessions/${id}`);
-        removeTypingIndicator();
-
-        if (!data.messages || data.messages.length === 0) {
-          const empty = document.createElement('div');
-          empty.className = 'flex items-center justify-center h-full';
-          empty.innerHTML = '<p class="text-sm text-tertiary">Chưa có tin nhắn nào trong session này.</p>';
-          document.getElementById('chat-messages').appendChild(empty);
-          return;
-        }
-
-        for (const msg of data.messages) {
-          const time = fmtTime(msg.created_at);
-          if (msg.actor === 'user') {
-            appendMessage(renderUserMessage(msg.content, time));
-          } else {
-            appendMessage(renderHistoryBotMessage(msg, time));
-          }
-        }
-      } catch (err) {
-        removeTypingIndicator();
-        appendMessage(renderErrorMessage(err.message));
-        showToast('Không tải được lịch sử chat.', 'error');
+    for (const msg of data.messages) {
+      const time = fmtTime(msg.created_at);
+      if (msg.actor === 'user') {
+        appendMessage(renderUserMessage(msg.content, time));
+      } else {
+        appendMessage(renderHistoryBotMessage(msg, time));
       }
     }
+  } catch (err) {
+    removeTypingIndicator();
+    appendMessage(renderErrorMessage(err.message));
+    showToast('Không tải được lịch sử chat.', 'error');
+  }
+}
 
-    function renderHistoryBotMessage(msg, time) {
-      const turn = {
-        mode: msg.latency_ms != null ? 'answer' : 'preview',
-        answer: msg.content,
-        kb_hits: Array.isArray(msg.kb_hits) ? msg.kb_hits : [],
-        handoff_recommended: msg.handoff_recommended,
-        assistant_message_id: msg.id,
-        metrics: msg.latency_ms != null ? {
-          model: msg.model,
-          latency_ms: msg.latency_ms,
-          usage: {
-            input_tokens: msg.input_tokens,
-            output_tokens: msg.output_tokens,
-            total_tokens: msg.total_tokens,
-          },
-          cost_usd_estimate: msg.cost_usd_estimate,
-        } : null,
-      };
-      return renderBotMessage(turn, time);
-    }
+function renderHistoryBotMessage(msg, time) {
+  const turn = {
+    mode: msg.latency_ms != null ? 'answer' : 'preview',
+    answer: msg.content,
+    kb_hits: Array.isArray(msg.kb_hits) ? msg.kb_hits : [],
+    handoff_recommended: msg.handoff_recommended,
+    assistant_message_id: msg.id,
+    metrics: msg.latency_ms != null ? {
+      model: msg.model,
+      latency_ms: msg.latency_ms,
+      usage: {
+        input_tokens: msg.input_tokens,
+        output_tokens: msg.output_tokens,
+        total_tokens: msg.total_tokens,
+      },
+      cost_usd_estimate: msg.cost_usd_estimate,
+    } : null,
+  };
+  return renderBotMessage(turn, time);
+}
 
-    /* ============================================================
-       VIEW MANAGEMENT
-    ============================================================ */
-    function showView(name) {
-      state.view = name;
-      document.getElementById('view-welcome').classList.toggle('hidden', name !== 'welcome');
-      document.getElementById('view-chat').classList.toggle('hidden', name !== 'chat');
-    }
+/* ============================================================
+   VIEW MANAGEMENT
+============================================================ */
+function showView(name) {
+  state.view = name;
+  document.getElementById('view-welcome').classList.toggle('hidden', name !== 'welcome');
+  document.getElementById('view-chat').classList.toggle('hidden', name !== 'chat');
+}
 
-    /* ============================================================
-       MESSAGE RENDERING
-    ============================================================ */
-    function fmtTime(iso) {
-      if (!iso) return '';
-      const d = new Date(iso);
-      return d.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
-    }
+/* ============================================================
+   MESSAGE RENDERING
+============================================================ */
+function fmtTime(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  return d.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+}
 
-    function escapeHtml(str) {
-      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-    }
+function escapeHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+            .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
 
-    function nl2p(text) {
-      return text.split('\n\n').map(para => {
-        const lines = para.split('\n').map(l => {
-          // bold **text**
-          l = l.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-          return l;
-        }).join('<br/>');
-        return `<p class="text-sm leading-relaxed text-on-surface-variant mb-3 last:mb-0">${lines}</p>`;
-      }).join('');
-    }
+function nl2p(text) {
+  return text.split('\n\n').map(para => {
+    const lines = para.split('\n').map(l => {
+      // bold **text**
+      l = l.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      return l;
+    }).join('<br/>');
+    return `<p class="text-sm leading-relaxed text-on-surface-variant mb-3 last:mb-0">${lines}</p>`;
+  }).join('');
+}
 
-    function renderUserMessage(text, time) {
-      const div = document.createElement('div');
-      div.className = 'flex flex-col items-end anim-left';
-      div.innerHTML = `
+function renderUserMessage(text, time) {
+  const div = document.createElement('div');
+  div.className = 'flex flex-col items-end anim-left';
+  div.innerHTML = `
     <div class="max-w-[85%] md:max-w-[60%] bg-primary text-white p-4 rounded-t-2xl rounded-bl-2xl shadow-sm">
       <p class="text-sm leading-relaxed">${escapeHtml(text)}</p>
     </div>
     <span class="text-[10px] text-tertiary mt-2 uppercase tracking-widest font-semibold px-1">${time}</span>
   `;
-      return div;
-    }
+  return div;
+}
 
-    function renderBotMessage(turn, time) {
-      const mode = turn.mode || 'answer';
-      const answer = turn.answer || '';
-      const kbHits = turn.kb_hits || [];
-      const handoff = turn.handoff_recommended;
-      const assistantId = turn.assistant_message_id;
-      const metrics = turn.metrics;
+function renderBotMessage(turn, time) {
+  const mode   = turn.mode || 'answer';
+  const answer = turn.answer || '';
+  const kbHits = turn.kb_hits || [];
+  const webHits = turn.web_hits || [];
+  const handoff = turn.handoff_recommended;
+  const assistantId = turn.assistant_message_id;
+  const metrics = turn.metrics;
 
-      const div = document.createElement('div');
-      div.className = 'flex flex-col items-start anim-right';
+  const div = document.createElement('div');
+  div.className = 'flex flex-col items-start anim-right';
 
-      // --- Build KB hits HTML ---
-      let kbHtml = '';
-      if (kbHits.length > 0) {
-        const items = kbHits.map(h => `
+  // --- Build KB hits HTML ---
+  let sourcesHtml = '';
+  const srcCount = (kbHits.length || 0) + (webHits.length || 0);
+  if (srcCount > 0) {
+    const kbItems = kbHits.map(h => `
       <li class="flex items-start gap-2 text-xs text-on-surface-variant">
         <span class="material-symbols-outlined text-primary-container shrink-0" style="font-size:1rem;">article</span>
         <span><strong>${escapeHtml(h.topic)}</strong> — ${escapeHtml(h.question)}</span>
       </li>`).join('');
-        kbHtml = `
+
+    const webItems = webHits.map(h => `
+      <li class="flex items-start gap-2 text-xs text-on-surface-variant">
+        <span class="material-symbols-outlined text-primary-container shrink-0" style="font-size:1rem;">travel_explore</span>
+        <span>
+          <strong>${escapeHtml(h.title || '')}</strong><br/>
+          <a href="${escapeHtml(h.url || '')}" target="_blank" rel="noopener noreferrer"
+             class="text-primary hover:underline break-all">${escapeHtml(h.url || '')}</a>
+          ${h.snippet ? `<div class="mt-1 text-[11px] text-tertiary">${escapeHtml(h.snippet)}</div>` : ``}
+        </span>
+      </li>`).join('');
+
+    const kbBlock = kbHits.length ? `
+      <div class="mt-2">
+        <div class="text-[10px] font-bold uppercase tracking-widest text-tertiary mb-2">Knowledge Base</div>
+        <ul class="space-y-2 pl-2 border-l-2 border-primary/20">${kbItems}</ul>
+      </div>` : '';
+
+    const webBlock = webHits.length ? `
+      <div class="mt-3">
+        <div class="text-[10px] font-bold uppercase tracking-widest text-tertiary mb-2">Web Search</div>
+        <ul class="space-y-2 pl-2 border-l-2 border-primary/20">${webItems}</ul>
+      </div>` : '';
+
+    sourcesHtml = `
       <details class="mt-3 group">
         <summary class="text-[10px] font-bold uppercase tracking-widest text-tertiary cursor-pointer flex items-center gap-1 select-none">
           <span class="material-symbols-outlined text-xs transition-transform group-open:rotate-90" style="font-size:0.85rem;">chevron_right</span>
-          ${kbHits.length} nguồn tham chiếu
+          ${srcCount} nguồn tham chiếu
         </summary>
-        <ul class="mt-2 space-y-2 pl-2 border-l-2 border-primary/20">${items}</ul>
+        ${kbBlock}
+        ${webBlock}
         <a href="https://www.xanhsm.com/helps" target="_blank" rel="noopener noreferrer"
            class="mt-3 flex items-center gap-1.5 text-[10px] font-bold text-primary hover:underline w-fit">
           <span class="material-symbols-outlined" style="font-size:0.85rem;">open_in_new</span>
           Xem toàn bộ tại xanhsm.com/helps
         </a>
       </details>`;
-      }
+  }
 
-      // --- Handoff banner ---
-      let handoffHtml = '';
-      if (handoff) {
-        handoffHtml = `
+  // --- Handoff banner ---
+  let handoffHtml = '';
+  if (handoff) {
+    handoffHtml = `
       <div class="mt-3 flex items-start gap-2 p-3 rounded-xl bg-amber-50 border border-amber-200">
         <span class="material-symbols-outlined text-amber-500 shrink-0" style="font-size:1.1rem;">support_agent</span>
         <p class="text-xs text-amber-700 font-medium leading-relaxed">
           Câu hỏi này có thể cần tư vấn viên hỗ trợ trực tiếp.
         </p>
       </div>`;
-      }
+  }
 
-      // --- Preview mode banner ---
-      let previewHtml = '';
-      if (mode === 'preview') {
-        previewHtml = `
+  // --- Preview mode banner ---
+  let previewHtml = '';
+  if (mode === 'preview') {
+    previewHtml = `
       <div class="mb-3 flex items-center gap-2 px-3 py-2 rounded-xl bg-amber-50 border border-amber-200">
         <span class="material-symbols-outlined text-amber-500" style="font-size:1rem;">warning</span>
         <span class="text-xs text-amber-700 font-medium">Chế độ xem trước — AI chưa khả dụng.</span>
       </div>`;
-      }
+  }
 
-      // --- Metrics bar ---
-      let metricsHtml = '';
-      if (metrics) {
-        const chips = [];
+  // --- Metrics bar ---
+  let metricsHtml = '';
+  if (metrics) {
+    const chips = [];
 
-        if (metrics.model) {
-          chips.push(`<span class="metric-chip">
+    if (metrics.model) {
+      chips.push(`<span class="metric-chip">
         <span class="material-symbols-outlined" style="font-size:0.75rem;">memory</span>
         ${escapeHtml(metrics.model)}
       </span>`);
-        }
+    }
 
-        if (metrics.latency_ms != null) {
-          const ms = Math.round(metrics.latency_ms);
-          const display = ms >= 1000 ? (ms / 1000).toFixed(1) + 's' : ms + 'ms';
-          chips.push(`<span class="metric-chip">
+    if (metrics.latency_ms != null) {
+      const ms = Math.round(metrics.latency_ms);
+      const display = ms >= 1000 ? (ms / 1000).toFixed(1) + 's' : ms + 'ms';
+      chips.push(`<span class="metric-chip">
         <span class="material-symbols-outlined" style="font-size:0.75rem;">bolt</span>
         ${display}
       </span>`);
-        }
+    }
 
-        if (metrics.usage) {
-          const { input_tokens, output_tokens, total_tokens } = metrics.usage;
-          const total = total_tokens ?? ((input_tokens ?? 0) + (output_tokens ?? 0));
-          chips.push(`<span class="metric-chip" title="Input: ${input_tokens ?? '?'} · Output: ${output_tokens ?? '?'}">
+    if (metrics.usage) {
+      const { input_tokens, output_tokens, total_tokens } = metrics.usage;
+      const total = total_tokens ?? ((input_tokens ?? 0) + (output_tokens ?? 0));
+      chips.push(`<span class="metric-chip" title="Input: ${input_tokens ?? '?'} · Output: ${output_tokens ?? '?'}">
         <span class="material-symbols-outlined" style="font-size:0.75rem;">token</span>
         ${total.toLocaleString()} tok
       </span>`);
-        }
+    }
 
-        if (metrics.cost_usd_estimate != null) {
-          const cost = metrics.cost_usd_estimate;
-          const display = cost < 0.001
-            ? '$' + cost.toFixed(6)
-            : '$' + cost.toFixed(4);
-          chips.push(`<span class="metric-chip">
+    if (metrics.cost_usd_estimate != null) {
+      const cost = metrics.cost_usd_estimate;
+      const display = cost < 0.001
+        ? '$' + cost.toFixed(6)
+        : '$' + cost.toFixed(4);
+      chips.push(`<span class="metric-chip">
         <span class="material-symbols-outlined" style="font-size:0.75rem;">attach_money</span>
         ${display}
       </span>`);
-        }
+    }
 
-        if (chips.length) {
-          metricsHtml = `<div class="flex items-center gap-1.5 flex-wrap mt-1">${chips.join('')}</div>`;
-        }
-      }
+    if (chips.length) {
+      metricsHtml = `<div class="flex items-center gap-1.5 flex-wrap mt-1">${chips.join('')}</div>`;
+    }
+  }
 
-      // --- Answer body ---
-      let bodyHtml = '';
-      if (mode === 'preview' && kbHits.length > 0) {
-        bodyHtml = `<p class="text-sm text-on-surface-variant leading-relaxed">Tìm thấy ${kbHits.length} nội dung liên quan trong cơ sở tri thức:</p>`;
-      } else if (answer) {
-        bodyHtml = nl2p(answer);
-      } else {
-        bodyHtml = `<p class="text-sm text-on-surface-variant italic">Không có câu trả lời.</p>`;
-      }
+  // --- Answer body ---
+  let bodyHtml = '';
+  if (mode === 'preview' && kbHits.length > 0) {
+    bodyHtml = `<p class="text-sm text-on-surface-variant leading-relaxed">Tìm thấy ${kbHits.length} nội dung liên quan trong cơ sở tri thức:</p>`;
+  } else if (answer) {
+    bodyHtml = nl2p(answer);
+  } else {
+    bodyHtml = `<p class="text-sm text-on-surface-variant italic">Không có câu trả lời.</p>`;
+  }
 
-      // --- Feedback buttons ---
-      let feedbackHtml = '';
-      if (assistantId) {
-        feedbackHtml = `
+  // --- Feedback buttons ---
+  let feedbackHtml = '';
+  if (assistantId) {
+    feedbackHtml = `
       <div class="flex items-center gap-2" id="fb-${assistantId}">
         <button onclick="handleThumbsUp('${assistantId}', this)"
           class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container hover:bg-secondary-container transition-colors text-on-surface-variant text-[10px] font-bold">
@@ -1000,9 +893,9 @@
           <span class="material-symbols-outlined" style="font-size:1rem;">thumb_down</span>
         </button>
       </div>`;
-      }
+  }
 
-      div.innerHTML = `
+  div.innerHTML = `
     <div class="flex items-start gap-3 max-w-[95%] md:max-w-[78%]">
       <div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center shrink-0 shadow-sm mt-1">
         <span class="material-symbols-outlined text-primary icon-filled" style="font-size:1.3rem;">smart_toy</span>
@@ -1011,7 +904,7 @@
         <div class="bg-surface-container-lowest p-5 rounded-t-2xl rounded-br-2xl shadow-md shadow-on-surface/5">
           ${previewHtml}
           <div class="prose max-w-none">${bodyHtml}</div>
-          ${kbHtml}
+        ${sourcesHtml}
           ${handoffHtml}
         </div>
         <div class="px-1 space-y-1.5">
@@ -1024,14 +917,14 @@
       </div>
     </div>
   `;
-      return div;
-    }
+  return div;
+}
 
-    function renderTypingIndicator() {
-      const div = document.createElement('div');
-      div.id = 'typing-indicator';
-      div.className = 'flex items-start gap-3 anim-right';
-      div.innerHTML = `
+function renderTypingIndicator() {
+  const div = document.createElement('div');
+  div.id = 'typing-indicator';
+  div.className = 'flex items-start gap-3 anim-right';
+  div.innerHTML = `
     <div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center shrink-0 shadow-sm">
       <span class="material-symbols-outlined text-primary icon-filled" style="font-size:1.3rem;">smart_toy</span>
     </div>
@@ -1041,23 +934,23 @@
       <div class="typing-dot"></div>
     </div>
   `;
-      return div;
-    }
+  return div;
+}
 
-    /* ─────────────────────────────────────────────────
-       STREAMING BUBBLE
-    ───────────────────────────────────────────────── */
+/* ─────────────────────────────────────────────────
+   STREAMING BUBBLE
+───────────────────────────────────────────────── */
 
-    /**
-     * Creates a bot bubble ready to receive streaming text.
-     * Returns references to live-update targets.
-     */
-    function createStreamingBubble(time) {
-      const uid = `sb-${Date.now()}`;
-      const div = document.createElement('div');
-      div.className = 'flex flex-col items-start anim-right';
-      div.dataset.streamUid = uid;
-      div.innerHTML = `
+/**
+ * Creates a bot bubble ready to receive streaming text.
+ * Returns references to live-update targets.
+ */
+function createStreamingBubble(time) {
+  const uid = `sb-${Date.now()}`;
+  const div = document.createElement('div');
+  div.className = 'flex flex-col items-start anim-right';
+  div.dataset.streamUid = uid;
+  div.innerHTML = `
     <div class="flex items-start gap-3 max-w-[95%] md:max-w-[78%]">
       <div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center shrink-0 shadow-sm mt-1">
         <span class="material-symbols-outlined text-primary icon-filled" style="font-size:1.3rem;">smart_toy</span>
@@ -1079,41 +972,41 @@
       </div>
     </div>
   `;
-      return {
-        el: div,
-        uid,
-        previewEl: div.querySelector(`#${uid}-preview`),
-        bodyEl: div.querySelector(`#${uid}-body`),
-        kbEl: div.querySelector(`#${uid}-kb`),
-        handoffEl: div.querySelector(`#${uid}-handoff`),
-        fbEl: div.querySelector(`#${uid}-fb`),
-        metricsEl: div.querySelector(`#${uid}-metrics`),
-      };
-    }
+  return {
+    el: div,
+    uid,
+    previewEl:  div.querySelector(`#${uid}-preview`),
+    bodyEl:     div.querySelector(`#${uid}-body`),
+    kbEl:       div.querySelector(`#${uid}-kb`),
+    handoffEl:  div.querySelector(`#${uid}-handoff`),
+    fbEl:       div.querySelector(`#${uid}-fb`),
+    metricsEl:  div.querySelector(`#${uid}-metrics`),
+  };
+}
 
-    /** Apply meta event: show preview banner + KB hits + handoff banner. */
-    function applyStreamMeta(bubble, meta) {
-      const { previewEl, kbEl, handoffEl } = bubble;
-      const { mode, kb_hits = [], handoff_recommended } = meta;
+/** Apply meta event: show preview banner + KB hits + handoff banner. */
+function applyStreamMeta(bubble, meta) {
+  const { previewEl, kbEl, handoffEl } = bubble;
+  const { mode, kb_hits = [], handoff_recommended } = meta;
 
-      if (mode === 'preview') {
-        previewEl.innerHTML = `
+  if (mode === 'preview') {
+    previewEl.innerHTML = `
       <div class="mb-3 flex items-center gap-2 px-3 py-2 rounded-xl bg-amber-50 border border-amber-200">
         <span class="material-symbols-outlined text-amber-500" style="font-size:1rem;">warning</span>
         <span class="text-xs text-amber-700 font-medium">Chế độ xem trước — AI chưa khả dụng.</span>
       </div>`;
-        if (kb_hits.length > 0) {
-          bubble.bodyEl.textContent = `Tìm thấy ${kb_hits.length} nội dung liên quan trong cơ sở tri thức.`;
-        }
-      }
+    if (kb_hits.length > 0) {
+      bubble.bodyEl.textContent = `Tìm thấy ${kb_hits.length} nội dung liên quan trong cơ sở tri thức.`;
+    }
+  }
 
-      if (kb_hits.length > 0) {
-        const items = kb_hits.map(h => `
+  if (kb_hits.length > 0) {
+    const items = kb_hits.map(h => `
       <li class="flex items-start gap-2 text-xs text-on-surface-variant">
         <span class="material-symbols-outlined text-primary-container shrink-0" style="font-size:1rem;">article</span>
         <span><strong>${escapeHtml(h.topic)}</strong> — ${escapeHtml(h.question)}</span>
       </li>`).join('');
-        kbEl.innerHTML = `
+    kbEl.innerHTML = `
       <details class="mt-3 group">
         <summary class="text-[10px] font-bold uppercase tracking-widest text-tertiary cursor-pointer flex items-center gap-1 select-none">
           <span class="material-symbols-outlined transition-transform group-open:rotate-90" style="font-size:0.85rem;">chevron_right</span>
@@ -1126,33 +1019,33 @@
           Xem toàn bộ tại xanhsm.com/helps
         </a>
       </details>`;
-      }
+  }
 
-      if (handoff_recommended) {
-        handoffEl.innerHTML = `
+  if (handoff_recommended) {
+    handoffEl.innerHTML = `
       <div class="mt-3 flex items-start gap-2 p-3 rounded-xl bg-amber-50 border border-amber-200">
         <span class="material-symbols-outlined text-amber-500 shrink-0" style="font-size:1.1rem;">support_agent</span>
         <p class="text-xs text-amber-700 font-medium leading-relaxed">
           Câu hỏi này có thể cần tư vấn viên hỗ trợ trực tiếp.
         </p>
       </div>`;
-      }
-    }
+  }
+}
 
-    /** Finalize bubble after done event: re-render markdown, add metrics + feedback. */
-    function finalizeStreamBubble(bubble, fullText, doneEvt) {
-      const { bodyEl, fbEl, metricsEl } = bubble;
-      const { assistant_message_id, metrics } = doneEvt;
+/** Finalize bubble after done event: re-render markdown, add metrics + feedback. */
+function finalizeStreamBubble(bubble, fullText, doneEvt) {
+  const { bodyEl, fbEl, metricsEl } = bubble;
+  const { assistant_message_id, metrics } = doneEvt;
 
-      // Re-render body with full markdown parsing
-      if (fullText) {
-        bodyEl.className = 'prose max-w-none';
-        bodyEl.innerHTML = nl2p(fullText);
-      }
+  // Re-render body with full markdown parsing
+  if (fullText) {
+    bodyEl.className = 'prose max-w-none';
+    bodyEl.innerHTML = nl2p(fullText);
+  }
 
-      // Feedback buttons
-      if (assistant_message_id) {
-        fbEl.innerHTML = `
+  // Feedback buttons
+  if (assistant_message_id) {
+    fbEl.innerHTML = `
       <div class="flex items-center gap-2" id="fb-${assistant_message_id}">
         <button onclick="handleThumbsUp('${assistant_message_id}', this)"
           class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container hover:bg-secondary-container transition-colors text-on-surface-variant text-[10px] font-bold">
@@ -1164,169 +1057,169 @@
           <span class="material-symbols-outlined" style="font-size:1rem;">thumb_down</span>
         </button>
       </div>`;
+  }
+
+  // Metrics chips
+  if (metrics) {
+    const chips = [];
+    if (metrics.model) {
+      chips.push(`<span class="metric-chip"><span class="material-symbols-outlined" style="font-size:0.75rem;">memory</span>${escapeHtml(metrics.model)}</span>`);
+    }
+    if (metrics.latency_ms != null) {
+      const ms = Math.round(metrics.latency_ms);
+      chips.push(`<span class="metric-chip"><span class="material-symbols-outlined" style="font-size:0.75rem;">bolt</span>${ms >= 1000 ? (ms/1000).toFixed(1)+'s' : ms+'ms'}</span>`);
+    }
+    if (metrics.usage) {
+      const { input_tokens, output_tokens, total_tokens } = metrics.usage;
+      const total = total_tokens ?? ((input_tokens ?? 0) + (output_tokens ?? 0));
+      chips.push(`<span class="metric-chip" title="Input: ${input_tokens ?? '?'} · Output: ${output_tokens ?? '?'}"><span class="material-symbols-outlined" style="font-size:0.75rem;">token</span>${total.toLocaleString()} tok</span>`);
+    }
+    if (metrics.cost_usd_estimate != null) {
+      const c = metrics.cost_usd_estimate;
+      chips.push(`<span class="metric-chip"><span class="material-symbols-outlined" style="font-size:0.75rem;">attach_money</span>${c < 0.001 ? '$'+c.toFixed(6) : '$'+c.toFixed(4)}</span>`);
+    }
+    if (chips.length) {
+      metricsEl.innerHTML = `<div class="flex items-center gap-1.5 flex-wrap mt-1">${chips.join('')}</div>`;
+    }
+  }
+}
+
+function appendMessage(el) {
+  const container = document.getElementById('chat-messages');
+  container.appendChild(el);
+  container.scrollTop = container.scrollHeight;
+}
+
+function removeTypingIndicator() {
+  document.getElementById('typing-indicator')?.remove();
+}
+
+/* ============================================================
+   EVENT HANDLERS
+============================================================ */
+function handleWelcomeSend() {
+  const input = document.getElementById('welcome-input');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  sendChat(text);
+}
+
+function handleChatSend() {
+  const ta = document.getElementById('chat-input');
+  const text = ta.value.trim();
+  if (!text || state.loading) return;
+  ta.value = '';
+  ta.style.height = 'auto';
+  sendChat(text);
+}
+
+function handleChatKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    handleChatSend();
+  }
+}
+
+function handleNewInquiry() {
+  state.sessionId = null;
+  document.getElementById('chat-messages').innerHTML = '';
+  document.getElementById('quick-chips')?.classList.remove('hidden');
+  renderSidebarSessions();
+  showView('welcome');
+}
+
+function quickSend(text) {
+  if (state.loading) return;
+  sendChat(text);
+}
+
+async function sendChat(text) {
+  if (!text || state.loading) return;
+
+  if (state.view === 'welcome') showView('chat');
+
+  const now = fmtTime(new Date().toISOString());
+  appendMessage(renderUserMessage(text, now));
+  appendMessage(renderTypingIndicator());
+
+  setSendDisabled(true);
+  state.loading = true;
+
+  try {
+    if (!state.sessionId) await createSession();
+
+    const res = await fetch(
+      `${API_BASE}/api/v1/sessions/${state.sessionId}/messages/stream`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json; charset=utf-8' },
+        body: JSON.stringify({ message: text, role_mode: 'rule' }),
       }
+    );
 
-      // Metrics chips
-      if (metrics) {
-        const chips = [];
-        if (metrics.model) {
-          chips.push(`<span class="metric-chip"><span class="material-symbols-outlined" style="font-size:0.75rem;">memory</span>${escapeHtml(metrics.model)}</span>`);
-        }
-        if (metrics.latency_ms != null) {
-          const ms = Math.round(metrics.latency_ms);
-          chips.push(`<span class="metric-chip"><span class="material-symbols-outlined" style="font-size:0.75rem;">bolt</span>${ms >= 1000 ? (ms / 1000).toFixed(1) + 's' : ms + 'ms'}</span>`);
-        }
-        if (metrics.usage) {
-          const { input_tokens, output_tokens, total_tokens } = metrics.usage;
-          const total = total_tokens ?? ((input_tokens ?? 0) + (output_tokens ?? 0));
-          chips.push(`<span class="metric-chip" title="Input: ${input_tokens ?? '?'} · Output: ${output_tokens ?? '?'}"><span class="material-symbols-outlined" style="font-size:0.75rem;">token</span>${total.toLocaleString()} tok</span>`);
-        }
-        if (metrics.cost_usd_estimate != null) {
-          const c = metrics.cost_usd_estimate;
-          chips.push(`<span class="metric-chip"><span class="material-symbols-outlined" style="font-size:0.75rem;">attach_money</span>${c < 0.001 ? '$' + c.toFixed(6) : '$' + c.toFixed(4)}</span>`);
-        }
-        if (chips.length) {
-          metricsEl.innerHTML = `<div class="flex items-center gap-1.5 flex-wrap mt-1">${chips.join('')}</div>`;
-        }
-      }
+    if (!res.ok) {
+      const errText = await res.text().catch(() => '');
+      throw new Error(`HTTP ${res.status}: ${errText}`);
     }
 
-    function appendMessage(el) {
-      const container = document.getElementById('chat-messages');
-      container.appendChild(el);
-      container.scrollTop = container.scrollHeight;
-    }
+    // Swap typing indicator → streaming bubble
+    removeTypingIndicator();
+    const botTime = fmtTime(new Date().toISOString());
+    const bubble = createStreamingBubble(botTime);
+    appendMessage(bubble.el);
 
-    function removeTypingIndicator() {
-      document.getElementById('typing-indicator')?.remove();
-    }
+    document.getElementById('quick-chips')?.classList.add('hidden');
 
-    /* ============================================================
-       EVENT HANDLERS
-    ============================================================ */
-    function handleWelcomeSend() {
-      const input = document.getElementById('welcome-input');
-      const text = input.value.trim();
-      if (!text) return;
-      input.value = '';
-      sendChat(text);
-    }
+    // Save to sidebar history (use first user message as title)
+    saveSessionToHistory(state.sessionId, text);
 
-    function handleChatSend() {
-      const ta = document.getElementById('chat-input');
-      const text = ta.value.trim();
-      if (!text || state.loading) return;
-      ta.value = '';
-      ta.style.height = 'auto';
-      sendChat(text);
-    }
+    let fullText = '';
+    let metaApplied = false;
 
-    function handleChatKey(e) {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        handleChatSend();
-      }
-    }
-
-    function handleNewInquiry() {
-      state.sessionId = null;
-      document.getElementById('chat-messages').innerHTML = '';
-      document.getElementById('quick-chips')?.classList.remove('hidden');
-      renderSidebarSessions();
-      showView('welcome');
-    }
-
-    function quickSend(text) {
-      if (state.loading) return;
-      sendChat(text);
-    }
-
-    async function sendChat(text) {
-      if (!text || state.loading) return;
-
-      if (state.view === 'welcome') showView('chat');
-
-      const now = fmtTime(new Date().toISOString());
-      appendMessage(renderUserMessage(text, now));
-      appendMessage(renderTypingIndicator());
-
-      setSendDisabled(true);
-      state.loading = true;
-
-      try {
-        if (!state.sessionId) await createSession();
-
-        const res = await fetch(
-          `${API_BASE}/api/v1/sessions/${state.sessionId}/messages/stream`,
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json; charset=utf-8' },
-            body: JSON.stringify({ message: text, role_mode: 'rule' }),
+    for await (const evt of parseSSE(res)) {
+      switch (evt.type) {
+        case 'meta':
+          if (!metaApplied) {
+            applyStreamMeta(bubble, evt);
+            metaApplied = true;
           }
-        );
+          break;
 
-        if (!res.ok) {
-          const errText = await res.text().catch(() => '');
-          throw new Error(`HTTP ${res.status}: ${errText}`);
-        }
+        case 'chunk':
+          fullText += evt.text;
+          bubble.bodyEl.textContent = fullText;
+          // Auto-scroll as text arrives
+          document.getElementById('chat-messages').scrollTop =
+            document.getElementById('chat-messages').scrollHeight;
+          break;
 
-        // Swap typing indicator → streaming bubble
-        removeTypingIndicator();
-        const botTime = fmtTime(new Date().toISOString());
-        const bubble = createStreamingBubble(botTime);
-        appendMessage(bubble.el);
+        case 'done':
+          finalizeStreamBubble(bubble, fullText, evt);
+          break;
 
-        document.getElementById('quick-chips')?.classList.add('hidden');
-
-        // Save to sidebar history (use first user message as title)
-        saveSessionToHistory(state.sessionId, text);
-
-        let fullText = '';
-        let metaApplied = false;
-
-        for await (const evt of parseSSE(res)) {
-          switch (evt.type) {
-            case 'meta':
-              if (!metaApplied) {
-                applyStreamMeta(bubble, evt);
-                metaApplied = true;
-              }
-              break;
-
-            case 'chunk':
-              fullText += evt.text;
-              bubble.bodyEl.textContent = fullText;
-              // Auto-scroll as text arrives
-              document.getElementById('chat-messages').scrollTop =
-                document.getElementById('chat-messages').scrollHeight;
-              break;
-
-            case 'done':
-              finalizeStreamBubble(bubble, fullText, evt);
-              break;
-
-            case 'error':
-              bubble.bodyEl.innerHTML =
-                `<p class="text-sm text-error font-medium">Lỗi: ${escapeHtml(evt.message)}</p>`;
-              showToast('Lỗi từ AI: ' + evt.message, 'error');
-              break;
-          }
-        }
-      } catch (err) {
-        removeTypingIndicator();
-        appendMessage(renderErrorMessage(err.message));
-        showToast('Lỗi kết nối backend.', 'error');
-      } finally {
-        state.loading = false;
-        setSendDisabled(false);
-        document.getElementById('chat-input')?.focus();
+        case 'error':
+          bubble.bodyEl.innerHTML =
+            `<p class="text-sm text-error font-medium">Lỗi: ${escapeHtml(evt.message)}</p>`;
+          showToast('Lỗi từ AI: ' + evt.message, 'error');
+          break;
       }
     }
+  } catch (err) {
+    removeTypingIndicator();
+    appendMessage(renderErrorMessage(err.message));
+    showToast('Lỗi kết nối backend.', 'error');
+  } finally {
+    state.loading = false;
+    setSendDisabled(false);
+    document.getElementById('chat-input')?.focus();
+  }
+}
 
-    function renderErrorMessage(msg) {
-      const div = document.createElement('div');
-      div.className = 'flex items-start gap-3 anim-right';
-      div.innerHTML = `
+function renderErrorMessage(msg) {
+  const div = document.createElement('div');
+  div.className = 'flex items-start gap-3 anim-right';
+  div.innerHTML = `
     <div class="w-10 h-10 rounded-full bg-error-container flex items-center justify-center shrink-0">
       <span class="material-symbols-outlined text-error" style="font-size:1.2rem;">error</span>
     </div>
@@ -1335,135 +1228,134 @@
       <p class="text-xs text-on-error-container/70 mt-1 font-mono">${escapeHtml(msg)}</p>
     </div>
   `;
-      return div;
-    }
+  return div;
+}
 
-    function setSendDisabled(disabled) {
-      const btn = document.getElementById('send-btn');
-      if (btn) btn.disabled = disabled;
-    }
+function setSendDisabled(disabled) {
+  const btn = document.getElementById('send-btn');
+  if (btn) btn.disabled = disabled;
+}
 
-    /* ============================================================
-       FEEDBACK
-    ============================================================ */
-    async function handleThumbsUp(messageId, btn) {
-      disableFeedbackBtns(messageId);
-      try {
-        await postFeedback(messageId, 'helpful', 'other', '');
-        showFeedbackDone(messageId, true);
-        showToast('Cảm ơn phản hồi của bạn!', 'success');
-      } catch {
-        showToast('Không gửi được phản hồi.', 'error');
-        restoreFeedbackBtns(messageId);
-      }
-    }
+/* ============================================================
+   FEEDBACK
+============================================================ */
+async function handleThumbsUp(messageId, btn) {
+  disableFeedbackBtns(messageId);
+  try {
+    await postFeedback(messageId, 'helpful', 'other', '');
+    showFeedbackDone(messageId, true);
+    showToast('Cảm ơn phản hồi của bạn!', 'success');
+  } catch {
+    showToast('Không gửi được phản hồi.', 'error');
+    restoreFeedbackBtns(messageId);
+  }
+}
 
-    function handleThumbsDown(messageId) {
-      state.feedbackTarget = { messageId };
-      state.selectedReason = 'wrong_answer';
-      // reset modal UI
-      document.getElementById('feedback-note').value = '';
-      document.querySelectorAll('.reason-chip').forEach(c => {
-        c.classList.toggle('active', c.dataset.reason === 'wrong_answer');
-      });
-      document.getElementById('feedback-modal').classList.remove('hidden');
-    }
+function handleThumbsDown(messageId) {
+  state.feedbackTarget = { messageId };
+  state.selectedReason = 'wrong_answer';
+  // reset modal UI
+  document.getElementById('feedback-note').value = '';
+  document.querySelectorAll('.reason-chip').forEach(c => {
+    c.classList.toggle('active', c.dataset.reason === 'wrong_answer');
+  });
+  document.getElementById('feedback-modal').classList.remove('hidden');
+}
 
-    function closeFeedbackModal() {
-      document.getElementById('feedback-modal').classList.add('hidden');
-      state.feedbackTarget = null;
-    }
+function closeFeedbackModal() {
+  document.getElementById('feedback-modal').classList.add('hidden');
+  state.feedbackTarget = null;
+}
 
-    async function submitFeedbackModal() {
-      if (!state.feedbackTarget) return;
-      const { messageId } = state.feedbackTarget;
-      const reason = state.selectedReason;
-      const note = document.getElementById('feedback-note').value.trim();
+async function submitFeedbackModal() {
+  if (!state.feedbackTarget) return;
+  const { messageId } = state.feedbackTarget;
+  const reason = state.selectedReason;
+  const note = document.getElementById('feedback-note').value.trim();
 
-      closeFeedbackModal();
-      disableFeedbackBtns(messageId);
+  closeFeedbackModal();
+  disableFeedbackBtns(messageId);
 
-      try {
-        await postFeedback(messageId, 'not_helpful', reason, note);
-        showFeedbackDone(messageId, false);
-        showToast('Phản hồi đã được gửi. Cảm ơn bạn!', 'success');
-      } catch {
-        showToast('Không gửi được phản hồi.', 'error');
-        restoreFeedbackBtns(messageId);
-      }
-    }
+  try {
+    await postFeedback(messageId, 'not_helpful', reason, note);
+    showFeedbackDone(messageId, false);
+    showToast('Phản hồi đã được gửi. Cảm ơn bạn!', 'success');
+  } catch {
+    showToast('Không gửi được phản hồi.', 'error');
+    restoreFeedbackBtns(messageId);
+  }
+}
 
-    function disableFeedbackBtns(messageId) {
-      const fb = document.getElementById(`fb-${messageId}`);
-      if (fb) fb.querySelectorAll('button').forEach(b => b.disabled = true);
-    }
+function disableFeedbackBtns(messageId) {
+  const fb = document.getElementById(`fb-${messageId}`);
+  if (fb) fb.querySelectorAll('button').forEach(b => b.disabled = true);
+}
 
-    function restoreFeedbackBtns(messageId) {
-      const fb = document.getElementById(`fb-${messageId}`);
-      if (fb) fb.querySelectorAll('button').forEach(b => b.disabled = false);
-    }
+function restoreFeedbackBtns(messageId) {
+  const fb = document.getElementById(`fb-${messageId}`);
+  if (fb) fb.querySelectorAll('button').forEach(b => b.disabled = false);
+}
 
-    function showFeedbackDone(messageId, helpful) {
-      const fb = document.getElementById(`fb-${messageId}`);
-      if (!fb) return;
-      fb.innerHTML = `
+function showFeedbackDone(messageId, helpful) {
+  const fb = document.getElementById(`fb-${messageId}`);
+  if (!fb) return;
+  fb.innerHTML = `
     <span class="flex items-center gap-1.5 px-3 py-1 text-[10px] font-bold uppercase tracking-wider ${helpful ? 'text-green-600' : 'text-tertiary'}">
       <span class="material-symbols-outlined icon-filled" style="font-size:1rem;">${helpful ? 'thumb_up' : 'thumb_down'}</span>
       ${helpful ? 'Đã đánh dấu hữu ích' : 'Đã gửi phản hồi'}
     </span>`;
-    }
+}
 
-    /* Reason chip selection in modal */
-    document.addEventListener('click', e => {
-      const chip = e.target.closest('.reason-chip');
-      if (!chip) return;
-      document.querySelectorAll('.reason-chip').forEach(c => c.classList.remove('active'));
-      chip.classList.add('active');
-      state.selectedReason = chip.dataset.reason;
-    });
+/* Reason chip selection in modal */
+document.addEventListener('click', e => {
+  const chip = e.target.closest('.reason-chip');
+  if (!chip) return;
+  document.querySelectorAll('.reason-chip').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  state.selectedReason = chip.dataset.reason;
+});
 
-    /* ============================================================
-       TOAST
-    ============================================================ */
-    let toastTimer = null;
-    function showToast(text, type = 'success') {
-      const toast = document.getElementById('toast');
-      const inner = document.getElementById('toast-inner');
-      const icon = document.getElementById('toast-icon');
-      const label = document.getElementById('toast-text');
+/* ============================================================
+   TOAST
+============================================================ */
+let toastTimer = null;
+function showToast(text, type = 'success') {
+  const toast = document.getElementById('toast');
+  const inner = document.getElementById('toast-inner');
+  const icon  = document.getElementById('toast-icon');
+  const label = document.getElementById('toast-text');
 
-      const styles = {
-        success: 'bg-surface-container-lowest text-on-surface border border-outline-variant/30 shadow-on-surface/10',
-        error: 'bg-error-container text-on-error-container border border-error/20',
-      };
-      const icons = { success: 'check_circle', error: 'error' };
+  const styles = {
+    success: 'bg-surface-container-lowest text-on-surface border border-outline-variant/30 shadow-on-surface/10',
+    error:   'bg-error-container text-on-error-container border border-error/20',
+  };
+  const icons = { success: 'check_circle', error: 'error' };
 
-      inner.className = `flex items-center gap-3 px-5 py-4 rounded-2xl shadow-xl text-sm font-medium anim-up max-w-xs ${styles[type] || styles.success}`;
-      icon.textContent = icons[type] || 'info';
-      label.textContent = text;
+  inner.className = `flex items-center gap-3 px-5 py-4 rounded-2xl shadow-xl text-sm font-medium anim-up max-w-xs ${styles[type] || styles.success}`;
+  icon.textContent = icons[type] || 'info';
+  label.textContent = text;
 
-      toast.classList.remove('hidden');
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => toast.classList.add('hidden'), 3500);
-    }
+  toast.classList.remove('hidden');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.add('hidden'), 3500);
+}
 
-    /* ============================================================
-       TEXTAREA AUTO-RESIZE
-    ============================================================ */
-    function autoResize(el) {
-      el.style.height = 'auto';
-      el.style.height = Math.min(el.scrollHeight, 128) + 'px';
-    }
+/* ============================================================
+   TEXTAREA AUTO-RESIZE
+============================================================ */
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 128) + 'px';
+}
 
-    /* ============================================================
-       INIT
-    ============================================================ */
-    document.addEventListener('DOMContentLoaded', () => {
-      showView('welcome');
-      checkHealth();
-      renderSidebarSessions();
-    });
-  </script>
+/* ============================================================
+   INIT
+============================================================ */
+document.addEventListener('DOMContentLoaded', () => {
+  showView('welcome');
+  checkHealth();
+  renderSidebarSessions();
+});
+</script>
 </body>
-
 </html>

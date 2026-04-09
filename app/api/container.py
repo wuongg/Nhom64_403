@@ -29,6 +29,10 @@ class AppContainer:
     def chat_service(self):
         return self.core.chat_service
 
+    @property
+    def memory_service(self):
+        return self.core.memory_service
+
     def close(self) -> None:
         self.store.close()
 

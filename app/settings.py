@@ -40,9 +40,19 @@ class Settings:
     model: str = "gpt-4o-mini"
     raw_dir: Path = field(default_factory=lambda: Path(__file__).resolve().parents[1] / "raw")
     db_url: str = "sqlite:///./xanhsm_helpcenter.db"
-    cors_origins: tuple[str, ...] = ("http://localhost:3000", "http://localhost:5173")
+    cors_origins: tuple[str, ...] = (
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+    )
     top_k: int = 5
     enable_debug_fields: bool = True
+    enable_web_search: bool = False
+    serper_api_key: str | None = None
+    serpapi_api_key: str | None = None
+    web_search_max_results: int = 5
+    web_search_kb_score_threshold: int = 2
 
     @classmethod
     def load(cls, env_file: str | Path | None = None) -> "Settings":
@@ -61,10 +71,20 @@ class Settings:
             db_url=os.getenv("DB_URL") or "sqlite:///./xanhsm_helpcenter.db",
             cors_origins=_parse_csv(
                 os.getenv("CORS_ORIGINS"),
-                ("http://localhost:3000", "http://localhost:5173"),
+                (
+                    "http://localhost:3000",
+                    "http://127.0.0.1:3000",
+                    "http://localhost:5173",
+                    "http://127.0.0.1:5173",
+                ),
             ),
             top_k=max(1, _parse_int(os.getenv("TOP_K"), 5)),
             enable_debug_fields=_parse_bool(os.getenv("ENABLE_DEBUG_FIELDS"), True),
+            enable_web_search=_parse_bool(os.getenv("ENABLE_WEB_SEARCH"), False),
+            serper_api_key=os.getenv("SERPER_API_KEY") or None,
+            serpapi_api_key=os.getenv("SERPAPI_API_KEY") or None,
+            web_search_max_results=max(1, _parse_int(os.getenv("WEB_SEARCH_MAX_RESULTS"), 5)),
+            web_search_kb_score_threshold=max(0, _parse_int(os.getenv("WEB_SEARCH_KB_SCORE_THRESHOLD"), 2)),
         )
 
     @property
@@ -80,6 +100,13 @@ class Settings:
         os.environ["CORS_ORIGINS"] = ",".join(self.cors_origins)
         os.environ["TOP_K"] = str(self.top_k)
         os.environ["ENABLE_DEBUG_FIELDS"] = "true" if self.enable_debug_fields else "false"
+        os.environ["ENABLE_WEB_SEARCH"] = "true" if self.enable_web_search else "false"
+        if self.serper_api_key is not None:
+            os.environ["SERPER_API_KEY"] = self.serper_api_key
+        if self.serpapi_api_key is not None:
+            os.environ["SERPAPI_API_KEY"] = self.serpapi_api_key
+        os.environ["WEB_SEARCH_MAX_RESULTS"] = str(self.web_search_max_results)
+        os.environ["WEB_SEARCH_KB_SCORE_THRESHOLD"] = str(self.web_search_kb_score_threshold)
 
     def with_overrides(self, **changes: object) -> "Settings":
         normalized = dict(changes)

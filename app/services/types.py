@@ -12,6 +12,7 @@ from ..role_tree import RoleDecision
 __all__ = [
     "KnowledgeBaseHit",
     "KnowledgeBaseSearchResult",
+    "WebSearchHit",
     "HandoffDecision",
     "ChatPrepared",
     "ChatTurnResult",
@@ -73,6 +74,20 @@ class KnowledgeBaseSearchResult:
 
 
 @dataclass(frozen=True, slots=True)
+class WebSearchHit:
+    title: str
+    url: str
+    snippet: str
+
+    def to_public_dict(self) -> dict[str, str]:
+        return {
+            "title": self.title,
+            "url": self.url,
+            "snippet": self.snippet,
+        }
+
+
+@dataclass(frozen=True, slots=True)
 class HandoffDecision:
     recommended: bool
     reason: str
@@ -88,6 +103,7 @@ class ChatPrepared:
     role_decision: RoleDecision
     kb_results: tuple[KnowledgeBaseSearchResult, ...]
     kb_hits: tuple[KnowledgeBaseHit, ...]
+    web_hits: tuple[WebSearchHit, ...]
     handoff: HandoffDecision
     prompt: PromptBundle
     active_model: str
@@ -95,7 +111,6 @@ class ChatPrepared:
     preview_only: bool
     note: str | None
     debug: dict[str, Any]
-    new_summary: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -104,6 +119,7 @@ class ChatTurnResult:
     role_decision: RoleDecision
     kb_results: tuple[KnowledgeBaseSearchResult, ...]
     kb_hits: tuple[KnowledgeBaseHit, ...]
+    web_hits: tuple[WebSearchHit, ...]
     handoff: HandoffDecision
     mode: str
     preview_only: bool
@@ -112,4 +128,3 @@ class ChatTurnResult:
     model: str
     note: str | None = None
     debug: dict[str, Any] = field(default_factory=dict)
-    new_summary: str | None = None

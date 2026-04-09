@@ -46,6 +46,12 @@ class KBHitResponse(BaseModel):
     category: str
 
 
+class WebHitResponse(BaseModel):
+    title: str
+    url: str
+    snippet: str
+
+
 class MetricsResponse(BaseModel):
     model: str
     latency_ms: float
@@ -61,6 +67,7 @@ class MessageResponse(BaseModel):
     answer: str | None = None
     role_decision: RoleDecisionResponse
     kb_hits: list[KBHitResponse]
+    web_hits: list[WebHitResponse] = Field(default_factory=list)
     handoff_recommended: bool
     handoff_reason: str
     metrics: MetricsResponse | None = None
