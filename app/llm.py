@@ -96,7 +96,12 @@ def _estimate_cost_usd(model: str, usage: ChatUsage) -> float | None:
     )
 
 
-def chat_openai_with_metrics(system: str, user: str, model: str = "gpt-4o-mini") -> ChatResult:
+def chat_openai_with_metrics(
+    system: str, 
+    user: str, 
+    history: list[dict] | None = None, 
+    model: str = "gpt-4o-mini"
+) -> ChatResult:
     """
     Requires:
       - OPENAI_API_KEY env var
@@ -107,12 +112,14 @@ def chat_openai_with_metrics(system: str, user: str, model: str = "gpt-4o-mini")
     load_dotenv(override=False)
     client = OpenAI()
     t0 = time.perf_counter()
+    msgs = [{"role": "system", "content": system}]
+    if history:
+        msgs.extend(history)
+    msgs.append({"role": "user", "content": user})
+    
     resp = client.chat.completions.create(
         model=model,
-        messages=[
-            {"role": "system", "content": system},
-            {"role": "user", "content": user},
-        ],
+        messages=msgs,
         temperature=0.2,
     )
     latency_ms = (time.perf_counter() - t0) * 1000.0
@@ -126,13 +133,14 @@ def chat_openai_with_metrics(system: str, user: str, model: str = "gpt-4o-mini")
     )
 
 
-def chat_openai(system: str, user: str, model: str = "gpt-4o-mini") -> str:
-    return chat_openai_with_metrics(system, user, model=model).text
+def chat_openai(system: str, user: str, history: list[dict] | None = None, model: str = "gpt-4o-mini") -> str:
+    return chat_openai_with_metrics(system, user, history=history, model=model).text
 
 
 async def chat_openai_stream_async(
     system: str,
     user: str,
+    history: list[dict] | None = None,
     model: str = "gpt-4o-mini",
 ) -> AsyncIterator[str | ChatResult]:
     """
@@ -148,12 +156,14 @@ async def chat_openai_stream_async(
     client = AsyncOpenAI()
     t0 = time.perf_counter()
 
+    msgs = [{"role": "system", "content": system}]
+    if history:
+        msgs.extend(history)
+    msgs.append({"role": "user", "content": user})
+
     stream = await client.chat.completions.create(
         model=model,
-        messages=[
-            {"role": "system", "content": system},
-            {"role": "user", "content": user},
-        ],
+        messages=msgs,
         temperature=0.2,
         stream=True,
         stream_options={"include_usage": True},

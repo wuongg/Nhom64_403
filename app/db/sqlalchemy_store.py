@@ -44,6 +44,7 @@ class ChatSession(Base):
     status: Mapped[str] = mapped_column(String(32), nullable=False, default="active")
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=_utcnow)
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=_utcnow)
+    summary: Mapped[str | None] = mapped_column(Text, nullable=True)
 
     messages: Mapped[list["ChatMessage"]] = relationship(
         back_populates="session",
@@ -102,6 +103,7 @@ def _session_record(row: ChatSession) -> ChatSessionRecord:
         status=row.status,
         created_at=row.created_at,
         updated_at=row.updated_at,
+        summary=row.summary,
     )
 
 
@@ -145,7 +147,14 @@ class SqlAlchemyChatStore:
         self.session_factory = sessionmaker(bind=self.engine, expire_on_commit=False, future=True)
 
     def create_all(self) -> None:
+        from sqlalchemy import text
         Base.metadata.create_all(self.engine)
+        if self.engine.url.drivername == "sqlite":
+            with self.engine.begin() as conn:
+                try:
+                    conn.execute(text("ALTER TABLE chat_sessions ADD COLUMN summary TEXT"))
+                except Exception:
+                    pass
 
     def close(self) -> None:
         self.engine.dispose()
@@ -184,6 +193,14 @@ class SqlAlchemyChatStore:
             messages = tuple(_message_record(item) for item in row.messages)
             feedback = tuple(_feedback_record(item) for item in row.feedback)
             return SessionDetails(session=_session_record(row), messages=messages, feedback=feedback)
+
+    def update_session_summary(self, session_id: str, summary: str) -> None:
+        with self.session_scope() as session:
+            row = session.get(ChatSession, session_id)
+            if row is not None:
+                row.summary = summary
+                row.updated_at = _utcnow()
+                session.flush()
 
     def get_message(self, message_id: str) -> ChatMessageRecord | None:
         with self.session_scope() as session:

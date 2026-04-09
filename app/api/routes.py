@@ -117,7 +117,8 @@ def get_session(request: Request, session_id: str) -> SessionDetailResponse:
 @router.post("/sessions/{session_id}/messages")
 async def post_message(request: Request, session_id: str) -> MessageResponse:
     container = _container(request)
-    if container.store.get_session(session_id) is None:
+    session_details = container.store.get_session_details(session_id)
+    if session_details is None:
         raise HTTPException(404, "Session not found")
 
     try:
@@ -136,7 +137,11 @@ async def post_message(request: Request, session_id: str) -> MessageResponse:
         role_override=body.role_override,
         k=body.k,
         model=body.model,
+        session_details=session_details,
     )
+
+    if turn.new_summary is not None:
+        container.store.update_session_summary(session_id, turn.new_summary)
 
     user_message = container.store.add_message(
         MessageWrite(
@@ -198,7 +203,8 @@ async def post_message_stream(request: Request, session_id: str) -> StreamingRes
     - ``error`` — if the LLM call fails mid-stream.
     """
     container = _container(request)
-    if container.store.get_session(session_id) is None:
+    session_details = container.store.get_session_details(session_id)
+    if session_details is None:
         raise HTTPException(404, "Session not found")
 
     try:
@@ -218,7 +224,11 @@ async def post_message_stream(request: Request, session_id: str) -> StreamingRes
         role_override=body.role_override,
         k=body.k,
         model=body.model,
+        session_details=session_details,
     )
+
+    if prepared.new_summary is not None:
+        container.store.update_session_summary(session_id, prepared.new_summary)
 
     user_message = container.store.add_message(
         MessageWrite(
@@ -274,6 +284,7 @@ async def post_message_stream(request: Request, session_id: str) -> StreamingRes
             async for item in chat_openai_stream_async(
                 prepared.prompt.system,
                 prepared.prompt.user,
+                history=prepared.prompt.history,
                 model=prepared.active_model,
             ):
                 if isinstance(item, str):

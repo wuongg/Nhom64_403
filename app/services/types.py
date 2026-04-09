@@ -95,6 +95,7 @@ class ChatPrepared:
     preview_only: bool
     note: str | None
     debug: dict[str, Any]
+    new_summary: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -111,3 +112,4 @@ class ChatTurnResult:
     model: str
     note: str | None = None
     debug: dict[str, Any] = field(default_factory=dict)
+    new_summary: str | None = None

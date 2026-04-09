@@ -11,6 +11,7 @@ class ChatSessionRecord:
     status: str
     created_at: datetime
     updated_at: datetime
+    summary: str | None = None
 
 
 @dataclass(frozen=True, slots=True)

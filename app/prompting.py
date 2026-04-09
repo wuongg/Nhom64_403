@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from .kb import KBEntry
 from .role_tree import RoleDecision
@@ -11,6 +11,7 @@ class PromptBundle:
     system: str
     user: str
     debug: dict
+    history: list[dict] = field(default_factory=list)
 
 
 def _role_style(role: str) -> str:
@@ -38,14 +39,24 @@ def _safety_rules() -> str:
     )
 
 
-def build_prompt(decision: RoleDecision, query: str, kb_hits: list[KBEntry]) -> PromptBundle:
+def build_prompt(
+    decision: RoleDecision, 
+    query: str, 
+    kb_hits: list[KBEntry], 
+    history_messages: list[dict] | None = None, 
+    summary: str | None = None
+) -> PromptBundle:
     system_lines = [
         _role_style(decision.role),
-        "Chỉ dùng thông tin có trong Knowledge Base bên dưới; nếu thiếu thông tin thì nói rõ và đưa hướng chuyển nhân viên/hotline.",
+        "Chỉ dùng thông tin có trong Knowledge Base bên dưới để hướng dẫn chính sách/nghiệp vụ; nếu thiếu thì nói rõ và chuyển nhân viên/hotline.",
+        "Được phép ghi nhớ và sử dụng thông tin cá nhân (như tên gọi, sđt...) mà người dùng đã cung cấp trong hội thoại để giao tiếp tự nhiên.",
         "Không bịa số liệu/chính sách. Không yêu cầu người dùng cung cấp dữ liệu nhạy cảm (OTP, mật khẩu).",
     ]
     if decision.safety:
         system_lines.append(_safety_rules())
+        
+    if summary:
+        system_lines.append(f"\nTóm tắt hội thoại cũ:\n{summary}")
 
     kb_block_lines: list[str] = []
     for i, e in enumerate(kb_hits, start=1):
@@ -68,5 +79,6 @@ def build_prompt(decision: RoleDecision, query: str, kb_hits: list[KBEntry]) -> 
             "reason": decision.reason,
             "contexts": [e.text for e in kb_hits],
         },
+        history=history_messages or [],
     )
 
