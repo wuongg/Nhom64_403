@@ -123,18 +123,20 @@
 <div id="view-welcome" class="view flex h-screen overflow-hidden">
 
   <!-- Sidebar -->
-  <aside class="hidden md:flex flex-col h-full py-8 bg-surface-container-lowest w-64 border-r border-outline-variant/30 shrink-0">
-    <div class="px-6 mb-10">
+  <aside class="hidden md:flex flex-col h-full py-6 bg-surface-container-lowest w-64 border-r border-outline-variant/30 shrink-0">
+    <div class="px-6 mb-6">
       <h1 class="text-xl font-black text-primary tracking-tight brand-font">Support Hub</h1>
       <p class="text-sm text-tertiary mt-1">How can we help?</p>
     </div>
-    <nav class="flex-1 px-4 space-y-2">
+    <div class="px-4 mb-3">
       <a class="flex items-center gap-3 px-4 py-3 text-primary font-bold border-r-4 border-primary bg-surface-container-low rounded-l-xl" href="#">
         <span class="material-symbols-outlined icon-filled">forum</span>
         <span class="font-medium">Live Chat</span>
       </a>
-    </nav>
-    <div class="px-4 mt-auto">
+    </div>
+    <!-- Session history list -->
+    <div id="sidebar-sessions-welcome" class="flex-1 overflow-y-auto no-scrollbar px-4"></div>
+    <div class="px-4 mt-4">
       <button onclick="handleNewInquiry()" class="w-full py-4 bg-signature text-white rounded-xl font-bold shadow-lg shadow-primary/20 flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all brand-font">
         <span class="material-symbols-outlined">add</span>
         New Inquiry
@@ -238,18 +240,20 @@
 <div id="view-chat" class="view hidden flex h-screen overflow-hidden">
 
   <!-- Sidebar -->
-  <aside class="hidden md:flex flex-col h-screen py-8 bg-surface-container-lowest w-64 border-r border-outline-variant/30 shrink-0">
-    <div class="px-6 mb-10">
+  <aside class="hidden md:flex flex-col h-screen py-6 bg-surface-container-lowest w-64 border-r border-outline-variant/30 shrink-0">
+    <div class="px-6 mb-6">
       <h1 class="text-xl font-black text-primary tracking-tight brand-font">Support Hub</h1>
       <p class="text-xs text-tertiary">How can we help?</p>
     </div>
-    <nav class="flex-1 px-4 space-y-2">
+    <div class="px-4 mb-3">
       <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-primary bg-primary/5 font-bold border-r-4 border-primary" href="#">
         <span class="material-symbols-outlined icon-filled">forum</span>
         <span class="font-medium">Live Chat</span>
       </a>
-    </nav>
-    <div class="px-4 mt-auto">
+    </div>
+    <!-- Session history list -->
+    <div id="sidebar-sessions-chat" class="flex-1 overflow-y-auto no-scrollbar px-4"></div>
+    <div class="px-4 mt-4">
       <button onclick="handleNewInquiry()"
         class="w-full flex items-center justify-center gap-2 bg-signature text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/10 hover:opacity-90 transition-all active:scale-95 brand-font">
         <span class="material-symbols-outlined">add</span>
@@ -408,6 +412,38 @@
   /* Remove cursor once streaming finishes (class replaced) */
   .prose::after { display: none; }
 
+  .session-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    width: 100%;
+    text-align: left;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.625rem;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .session-item:hover { background: #f0eded; }
+  .session-item.active { background: #f0eded; border-right: 3px solid #006a64; }
+  .session-copy {
+    flex: 1;
+    min-width: 0;
+  }
+  .session-item .del-btn {
+    opacity: 0;
+    padding: 0.15rem;
+    color: #6c7a78;
+    transition: opacity 0.15s, color 0.15s;
+    background: none;
+    border: none;
+    cursor: pointer;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .session-item:hover .del-btn,
+  .session-item:focus-within .del-btn { opacity: 1; }
+  .del-btn:hover { color: #ba1a1a !important; }
+
   .metric-chip {
     display: inline-flex;
     align-items: center;
@@ -518,6 +554,143 @@ async function checkHealth() {
     if (dot) dot.className = 'w-2 h-2 rounded-full bg-red-400';
     if (lbl) { lbl.textContent = 'Offline'; lbl.className = 'text-xs font-semibold text-error uppercase tracking-wider'; }
   }
+}
+
+/* ============================================================
+   SESSION HISTORY (localStorage)
+============================================================ */
+const HISTORY_KEY = 'xanhsm_sessions';
+const HISTORY_MAX = 20;
+
+function getSessionHistory() {
+  try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); }
+  catch { return []; }
+}
+
+function saveSessionToHistory(id, title) {
+  const list = getSessionHistory().filter(s => s.id !== id);
+  list.unshift({ id, title: title.slice(0, 60), ts: new Date().toISOString() });
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(list.slice(0, HISTORY_MAX)));
+  renderSidebarSessions();
+}
+
+function deleteSessionFromHistory(id) {
+  const list = getSessionHistory().filter(s => s.id !== id);
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(list));
+  // If deleted the current session, go back to welcome
+  if (state.sessionId === id) {
+    state.sessionId = null;
+    document.getElementById('chat-messages').innerHTML = '';
+    showView('welcome');
+  }
+  renderSidebarSessions();
+}
+
+function fmtRelativeTime(iso) {
+  const diff = Date.now() - new Date(iso).getTime();
+  const m = Math.floor(diff / 60000);
+  if (m < 1)  return 'Vừa xong';
+  if (m < 60) return `${m} phút trước`;
+  const h = Math.floor(m / 60);
+  if (h < 24) return `${h} giờ trước`;
+  const d = Math.floor(h / 24);
+  if (d < 7)  return `${d} ngày trước`;
+  return new Date(iso).toLocaleDateString('vi-VN');
+}
+
+function renderSidebarSessions() {
+  const list = getSessionHistory();
+  ['sidebar-sessions-welcome', 'sidebar-sessions-chat'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    if (list.length === 0) { el.innerHTML = ''; return; }
+
+    const items = list.map(s => {
+      const active = s.id === state.sessionId ? 'active' : '';
+      return `
+        <div class="session-item ${active}" role="button" tabindex="0"
+          onclick="loadSession('${s.id}')"
+          onkeydown="if(event.key==='Enter' || event.key===' '){ event.preventDefault(); loadSession('${s.id}'); }">
+          <div class="session-copy">
+              <div class="flex items-center justify-between gap-2">
+                <p class="text-xs font-medium text-on-surface truncate leading-snug">${escapeHtml(s.title)}</p>
+                <button class="del-btn" onclick="event.stopPropagation();deleteSessionFromHistory('${s.id}')"
+                  title="Xoá" aria-label="Xoá session">
+                  <span class="material-symbols-outlined" style="font-size:0.9rem;">delete</span>
+                </button>
+            </div>
+            <p class="text-[10px] text-tertiary mt-0.5">${fmtRelativeTime(s.ts)}</p>
+          </div>
+        </div>`;
+    }).join('');
+
+    el.innerHTML = `
+      <p class="text-[10px] font-bold uppercase tracking-widest text-tertiary/60 px-1 mb-2 mt-1">Lịch sử</p>
+      <div class="space-y-0.5">${items}</div>`;
+  });
+}
+
+/* ============================================================
+   LOAD OLD SESSION
+============================================================ */
+async function loadSession(id) {
+  if (state.loading) return;
+  if (state.sessionId === id && state.view === 'chat') return;
+
+  showView('chat');
+  document.getElementById('chat-messages').innerHTML = '';
+  document.getElementById('quick-chips')?.classList.add('hidden');
+  state.sessionId = id;
+  renderSidebarSessions();
+
+  appendMessage(renderTypingIndicator());
+  try {
+    const data = await apiCall(`/api/v1/sessions/${id}`);
+    removeTypingIndicator();
+
+    if (!data.messages || data.messages.length === 0) {
+      const empty = document.createElement('div');
+      empty.className = 'flex items-center justify-center h-full';
+      empty.innerHTML = '<p class="text-sm text-tertiary">Chưa có tin nhắn nào trong session này.</p>';
+      document.getElementById('chat-messages').appendChild(empty);
+      return;
+    }
+
+    for (const msg of data.messages) {
+      const time = fmtTime(msg.created_at);
+      if (msg.actor === 'user') {
+        appendMessage(renderUserMessage(msg.content, time));
+      } else {
+        appendMessage(renderHistoryBotMessage(msg, time));
+      }
+    }
+  } catch (err) {
+    removeTypingIndicator();
+    appendMessage(renderErrorMessage(err.message));
+    showToast('Không tải được lịch sử chat.', 'error');
+  }
+}
+
+function renderHistoryBotMessage(msg, time) {
+  const turn = {
+    mode: msg.latency_ms != null ? 'answer' : 'preview',
+    answer: msg.content,
+    kb_hits: Array.isArray(msg.kb_hits) ? msg.kb_hits : [],
+    handoff_recommended: msg.handoff_recommended,
+    assistant_message_id: msg.id,
+    metrics: msg.latency_ms != null ? {
+      model: msg.model,
+      latency_ms: msg.latency_ms,
+      usage: {
+        input_tokens: msg.input_tokens,
+        output_tokens: msg.output_tokens,
+        total_tokens: msg.total_tokens,
+      },
+      cost_usd_estimate: msg.cost_usd_estimate,
+    } : null,
+  };
+  return renderBotMessage(turn, time);
 }
 
 /* ============================================================
@@ -924,6 +1097,8 @@ function handleChatKey(e) {
 function handleNewInquiry() {
   state.sessionId = null;
   document.getElementById('chat-messages').innerHTML = '';
+  document.getElementById('quick-chips')?.classList.remove('hidden');
+  renderSidebarSessions();
   showView('welcome');
 }
 
@@ -968,6 +1143,9 @@ async function sendChat(text) {
     appendMessage(bubble.el);
 
     document.getElementById('quick-chips')?.classList.add('hidden');
+
+    // Save to sidebar history (use first user message as title)
+    saveSessionToHistory(state.sessionId, text);
 
     let fullText = '';
     let metaApplied = false;
@@ -1149,6 +1327,7 @@ function autoResize(el) {
 document.addEventListener('DOMContentLoaded', () => {
   showView('welcome');
   checkHealth();
+  renderSidebarSessions();
 });
 </script>
 </body>
