@@ -128,7 +128,7 @@
 </div>
 </header>
 <!-- Message History -->
-<section class="flex-1 overflow-y-auto p-6 md:p-10 space-y-8">
+<section id="chat-container" class="flex-1 overflow-y-auto p-6 md:p-10 space-y-8">
 <!-- User Message -->
 <div class="flex flex-col items-end animate-in fade-in slide-in-from-right duration-500">
 <div class="max-w-[85%] md:max-w-[60%] bg-primary text-white p-4 rounded-t-2xl rounded-bl-2xl shadow-sm">
@@ -198,14 +198,14 @@
 <span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
 </button>
 <div class="flex-1 relative">
-<textarea class="w-full bg-transparent border-none focus:ring-0 py-3 text-sm text-on-surface placeholder-on-surface-variant/50 resize-none max-h-32 overflow-y-auto" placeholder="Type your question here..." rows="1"></textarea>
+<textarea id="user-input" class="w-full bg-transparent border-none focus:ring-0 py-3 text-sm text-on-surface placeholder-on-surface-variant/50 resize-none max-h-32 overflow-y-auto" placeholder="Type your question here..." rows="1"></textarea>
 <div class="absolute right-0 bottom-0 py-3 pr-2 flex items-center gap-2">
 <button class="p-1.5 text-on-surface-variant/40 hover:text-primary">
 <span class="material-symbols-outlined text-lg" data-icon="image">image</span>
 </button>
 </div>
 </div>
-<button class="w-12 h-12 bg-primary text-white rounded-2xl flex items-center justify-center shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all">
+<button id="send-button" class="w-12 h-12 bg-primary text-white rounded-2xl flex items-center justify-center shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all">
 <span class="material-symbols-outlined" data-icon="send" style="font-variation-settings: 'FILL' 1;">send</span>
 </button>
 </div>
@@ -228,4 +228,98 @@
 </button>
 </div>
 </main>
+<script>
+    const chatContainer = document.getElementById('chat-container');
+    const userInput = document.getElementById('user-input');
+    const sendButton = document.getElementById('send-button');
+
+    function appendMessage(role, text, meta = null) {
+        if (role === 'user') {
+            const msg = `
+                <div class="flex flex-col items-end animate-in fade-in slide-in-from-right duration-500">
+                    <div class="max-w-[85%] md:max-w-[60%] bg-primary text-white p-4 rounded-t-2xl rounded-bl-2xl shadow-sm">
+                        <p class="text-sm leading-relaxed">${text}</p>
+                    </div>
+                    <span class="text-[10px] text-tertiary mt-2 uppercase tracking-widest font-semibold px-1">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} · Sent</span>
+                </div>
+            `;
+            chatContainer.insertAdjacentHTML('beforeend', msg);
+        } else {
+            const costStr = meta && meta.cost_usd != null
+                ? `$${meta.cost_usd.toFixed(6)}`
+                : null;
+
+            const metaInfo = meta ? `
+                <div class="mt-2 flex items-center gap-3 text-[9px] text-tertiary/60 font-medium flex-wrap">
+                    <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[10px]">timer</span> ${ (meta.latency_ms / 1000).toFixed(2) }s</span>
+                    <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[10px]">token</span> ${ meta.prompt_tokens } in + ${ meta.completion_tokens } out</span>
+                    ${costStr ? `<span class="flex items-center gap-1 text-emerald-600/70"><span class="material-symbols-outlined text-[10px]">attach_money</span> ${costStr}</span>` : ''}
+                </div>
+            ` : '';
+            
+            const msg = `
+                <div class="flex flex-col items-start animate-in fade-in slide-in-from-left duration-500">
+                    <div class="flex items-start gap-3 max-w-[95%] md:max-w-[75%]">
+                        <div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center shrink-0 shadow-sm overflow-hidden">
+                            <img alt="AI avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQj71RZ-RTSUamYVxUcLtoIbPxPS6q_6BfkrelvRXrJtSUnHBAuD4YEansAWVq_Ng38p_-IPCLe-tGUBG2-7cifMbmLxjxnC0SPOfRLv72udCBFUHdcpWRNrfjADyj4v1TNQqbPWFFMtv8YKFa4KNmzwqe60bZEeesoj8eqBCgmQrRKnHbfGfgWOUndfb-CjyHFhycla27dA-WasHR9OwNqPurBKgPYBCgAxUT3BOmxFWAvmUJX37_x0oMb6diwDs8pqqJn7s_VeBD"/>
+                        </div>
+                        <div class="space-y-1">
+                            <div class="bg-surface-container-lowest text-on-surface p-4 rounded-t-2xl rounded-br-2xl shadow-xl shadow-on-surface/5">
+                                <p class="text-sm text-on-surface-variant">${text.replace(/\n/g, '<br>')}</p>
+                                ${metaInfo}
+                            </div>
+                            <span class="text-[10px] text-tertiary uppercase tracking-widest font-semibold">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} · Bot Assistant</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            chatContainer.insertAdjacentHTML('beforeend', msg);
+        }
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    async function sendMessage() {
+        const text = userInput.value.trim();
+        if (!text) return;
+
+        userInput.value = '';
+        appendMessage('user', text);
+
+        // Show typing indicator
+        const loadingId = 'loading-' + Date.now();
+        const loadingMsg = `
+            <div id="${loadingId}" class="flex flex-col items-start animate-pulse">
+                <div class="bg-surface-container-lowest text-tertiary p-3 rounded-2xl italic text-xs">
+                    Bot đang trả lời...
+                </div>
+            </div>
+        `;
+        chatContainer.insertAdjacentHTML('beforeend', loadingMsg);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+
+        try {
+            const response = await fetch('http://127.0.0.1:8000/api/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: text })
+            });
+            const data = await response.json();
+            
+            document.getElementById(loadingId).remove();
+            appendMessage('bot', data.answer, data);
+        } catch (error) {
+            console.error('Error:', error);
+            document.getElementById(loadingId).remove();
+            appendMessage('bot', 'Xin lỗi, đã có lỗi xảy ra khi kết nối tới máy chủ.');
+        }
+    }
+
+    sendButton.addEventListener('click', sendMessage);
+    userInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
+</script>
 </body></html>
