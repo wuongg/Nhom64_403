@@ -83,6 +83,30 @@ Output:
 - In ra metrics tổng hợp (ví dụ `context_recall`, `faithfulness`, `factual_correctness(...)`)
 - Lưu file kết quả (mặc định `ragas_results.json`) gồm config + samples + scores theo từng sample
 
+## Cơ chế Retry & Fallback
+
+Hệ thống tích hợp cơ chế tự động thử lại (Retry) và chuyển hướng (Fallback) để đảm bảo độ tin cậy khi các dịch vụ AI gặp sự cố.
+
+### Luồng hoạt động
+1. **Lần 1**: Gọi model chính (mặc định `gpt-4o-mini`) với timeout cấu hình.
+2. **Retry**: Nếu gặp lỗi transient (Rate Limit, Timeout, Server 5xx), hệ thống tự động thử lại tối đa `LLM_RETRY_MAX` lần với thuật toán Exponential Backoff.
+3. **Fallback**: Nếu vẫn thất bại sau các lần retry, hệ thống sẽ chuyển sang gọi `LLM_FALLBACK_MODEL` (mặc định dùng Google Gemini 2.0 Flash Lite qua OpenRouter).
+4. **Final Fallback**: Nếu toàn bộ đều lỗi, hệ thống sẽ trả về `preview` mode kèm thông tin lỗi.
+
+### Cấu hình môi trường (.env)
+
+| Biến | Mặc định | Mô tả |
+|------|----------|-------|
+| `LLM_RETRY_MAX` | `2` | Số lần thử lại tối đa sau lần gọi đầu tiên |
+| `LLM_RETRY_BASE_DELAY` | `1.0` | Giây chờ cơ bản cho exponential backoff |
+| `LLM_TIMEOUT` | `30.0` | Giây timeout cho mỗi request LLM |
+| `LLM_FALLBACK_MODEL` | `google/gemini-2.0-flash-lite...:free` | Model dự phòng (OpenRouter) |
+| `OPENROUTER_API_KEY` | `null` | API Key nếu dùng fallback qua OpenRouter |
+
+### Giám sát và Debug
+- **Non-stream**: Trường `retry_info` trong response JSON chứa chi tiết các lần thử.
+- **Streaming (SSE)**: Hệ thống yield event `type: "retry"` để frontend hiển thị trạng thái chờ cho người dùng trước khi thử lại model mới.
+
 ## Tuỳ chọn
 
 - `--role user|driver|merchant`: ép role (bỏ qua decision tree)

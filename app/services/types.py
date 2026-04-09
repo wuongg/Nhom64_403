@@ -7,6 +7,7 @@ from ..kb import KBEntry, ScoredKBEntry
 from ..llm import ChatResult
 from ..prompting import PromptBundle
 from ..role_tree import RoleDecision
+from ..llm_retry import RetryAttempt
 
 # Re-export for convenience
 __all__ = [
@@ -109,5 +110,7 @@ class ChatTurnResult:
     prompt: PromptBundle
     answer: ChatResult | None
     model: str
+    retry_attempts: tuple[RetryAttempt, ...] = field(default_factory=tuple)
+    used_fallback_model: bool = False
     note: str | None = None
     debug: dict[str, Any] = field(default_factory=dict)

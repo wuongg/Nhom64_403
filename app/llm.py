@@ -96,16 +96,23 @@ def _estimate_cost_usd(model: str, usage: ChatUsage) -> float | None:
     )
 
 
-def chat_openai_with_metrics(system: str, user: str, model: str = "gpt-4o-mini") -> ChatResult:
+def chat_openai_with_metrics(
+    system: str,
+    user: str,
+    model: str = "gpt-4o-mini",
+    timeout: float = 30.0,
+    api_key: str | None = None,
+    base_url: str | None = None,
+) -> ChatResult:
     """
     Requires:
-      - OPENAI_API_KEY env var
+      - OPENAI_API_KEY env var (or passed api_key)
       - openai>=1.x installed (see requirements.txt)
     """
     from openai import OpenAI  # type: ignore
 
     load_dotenv(override=False)
-    client = OpenAI()
+    client = OpenAI(api_key=api_key or os.getenv("OPENAI_API_KEY"), base_url=base_url)
     t0 = time.perf_counter()
     resp = client.chat.completions.create(
         model=model,
@@ -114,6 +121,7 @@ def chat_openai_with_metrics(system: str, user: str, model: str = "gpt-4o-mini")
             {"role": "user", "content": user},
         ],
         temperature=0.2,
+        timeout=timeout,
     )
     latency_ms = (time.perf_counter() - t0) * 1000.0
     usage = _normalize_usage(getattr(resp, "usage", None))
@@ -134,6 +142,9 @@ async def chat_openai_stream_async(
     system: str,
     user: str,
     model: str = "gpt-4o-mini",
+    timeout: float = 30.0,
+    api_key: str | None = None,
+    base_url: str | None = None,
 ) -> AsyncIterator[str | ChatResult]:
     """
     Async generator for streaming OpenAI responses.
@@ -145,7 +156,7 @@ async def chat_openai_stream_async(
     from openai import AsyncOpenAI  # type: ignore
 
     load_dotenv(override=False)
-    client = AsyncOpenAI()
+    client = AsyncOpenAI(api_key=api_key or os.getenv("OPENAI_API_KEY"), base_url=base_url)
     t0 = time.perf_counter()
 
     stream = await client.chat.completions.create(
@@ -157,6 +168,7 @@ async def chat_openai_stream_async(
         temperature=0.2,
         stream=True,
         stream_options={"include_usage": True},
+        timeout=timeout,
     )
 
     collected: list[str] = []

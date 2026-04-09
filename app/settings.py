@@ -43,6 +43,13 @@ class Settings:
     cors_origins: tuple[str, ...] = ("http://localhost:3000", "http://localhost:5173")
     top_k: int = 5
     enable_debug_fields: bool = True
+    
+    # Retry & Fallback
+    llm_retry_max: int = 2
+    llm_retry_base_delay: float = 1.0
+    llm_fallback_model: str | None = "google/gemini-2.0-flash-lite-preview-02-05:free"
+    llm_timeout: float = 30.0
+    openrouter_api_key: str | None = None
 
     @classmethod
     def load(cls, env_file: str | Path | None = None) -> "Settings":
@@ -65,6 +72,11 @@ class Settings:
             ),
             top_k=max(1, _parse_int(os.getenv("TOP_K"), 5)),
             enable_debug_fields=_parse_bool(os.getenv("ENABLE_DEBUG_FIELDS"), True),
+            llm_retry_max=_parse_int(os.getenv("LLM_RETRY_MAX"), 2),
+            llm_retry_base_delay=float(os.getenv("LLM_RETRY_BASE_DELAY", "1.0")),
+            llm_fallback_model=os.getenv("LLM_FALLBACK_MODEL") or "google/gemini-2.0-flash-lite-preview-02-05:free",
+            llm_timeout=float(os.getenv("LLM_TIMEOUT", "30.0")),
+            openrouter_api_key=os.getenv("OPENROUTER_API_KEY") or None,
         )
 
     @property
@@ -80,6 +92,13 @@ class Settings:
         os.environ["CORS_ORIGINS"] = ",".join(self.cors_origins)
         os.environ["TOP_K"] = str(self.top_k)
         os.environ["ENABLE_DEBUG_FIELDS"] = "true" if self.enable_debug_fields else "false"
+        os.environ["LLM_RETRY_MAX"] = str(self.llm_retry_max)
+        os.environ["LLM_RETRY_BASE_DELAY"] = str(self.llm_retry_base_delay)
+        if self.llm_fallback_model:
+            os.environ["LLM_FALLBACK_MODEL"] = self.llm_fallback_model
+        os.environ["LLM_TIMEOUT"] = str(self.llm_timeout)
+        if self.openrouter_api_key:
+            os.environ["OPENROUTER_API_KEY"] = self.openrouter_api_key
 
     def with_overrides(self, **changes: object) -> "Settings":
         normalized = dict(changes)

@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 
 from .llm import chat_openai, has_openai_key
+from .llm_retry import chat_with_retry
 from .role_tree import RoleDecision, decide_role
 
 
@@ -39,7 +40,19 @@ def decide_role_with_llm(user_text: str, model: str = "gpt-4o-mini") -> RoleDeci
         )
 
     try:
-        raw = chat_openai(_ROLE_CLASSIFIER_SYSTEM, user_text, model=model)
+        # Use a shorter retry for role classification to avoid slow response
+        llm_result = chat_with_retry(
+            _ROLE_CLASSIFIER_SYSTEM,
+            user_text,
+            primary_model=model,
+            max_retries=1,
+            timeout=10.0,
+        )
+        
+        if llm_result.result is None:
+            raise ValueError(f"LLM failed: {llm_result.final_error}")
+
+        raw = llm_result.result.text
         obj = json.loads(raw)
         role = obj.get("role")
         safety = bool(obj.get("safety", False))
@@ -47,7 +60,7 @@ def decide_role_with_llm(user_text: str, model: str = "gpt-4o-mini") -> RoleDeci
         reason = str(obj.get("reason", "")).strip()
 
         if role not in {"user", "driver", "merchant"}:
-            raise ValueError("invalid role")
+            role = "user" # reasonable default if it failed
         if driver_type not in {None, "bike", "taxi"}:
             driver_type = None
         if role != "driver":
@@ -59,7 +72,7 @@ def decide_role_with_llm(user_text: str, model: str = "gpt-4o-mini") -> RoleDeci
             driver_type=driver_type,
             reason=f"llm: {reason}",
         )
-    except Exception:
+    except Exception as exc:
         d = decide_role(user_text)
         return RoleDecision(
             role=d.role,

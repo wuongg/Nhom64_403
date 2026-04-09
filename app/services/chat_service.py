@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from ..llm import ChatResult, chat_openai_with_metrics, has_openai_key
+from ..llm_retry import chat_with_retry
 from ..prompting import build_prompt
 from ..settings import Settings
 from .handoff_service import HandoffService
@@ -100,15 +101,24 @@ class ChatService:
                 debug=prepared.debug,
             )
 
-        try:
-            answer: ChatResult = chat_openai_with_metrics(
-                prepared.prompt.system,
-                prepared.prompt.user,
-                model=prepared.active_model,
-            )
-        except Exception as exc:
+        llm_result = chat_with_retry(
+            prepared.prompt.system,
+            prepared.prompt.user,
+            primary_model=prepared.active_model,
+            fallback_model=self.settings.llm_fallback_model,
+            max_retries=self.settings.llm_retry_max,
+            base_delay=self.settings.llm_retry_base_delay,
+            timeout=self.settings.llm_timeout,
+            openrouter_key=self.settings.openrouter_api_key,
+        )
+
+        if llm_result.result is None:
             failure_debug = dict(prepared.debug)
-            failure_debug["llm_error"] = str(exc)
+            failure_debug["llm_error"] = llm_result.final_error
+            failure_debug["retry_history"] = [
+                {"attempt": a.attempt, "error": a.error, "model": a.model_used}
+                for a in llm_result.attempts
+            ]
             return ChatTurnResult(
                 query=query,
                 role_decision=prepared.role_decision,
@@ -120,7 +130,8 @@ class ChatService:
                 prompt=prepared.prompt,
                 answer=None,
                 model=prepared.active_model,
-                note=f"OpenAI request failed: {exc}",
+                retry_attempts=tuple(llm_result.attempts),
+                note=f"LLM failed after {len(llm_result.attempts)} attempts: {llm_result.final_error}",
                 debug=failure_debug,
             )
 
@@ -133,8 +144,10 @@ class ChatService:
             mode="answer",
             preview_only=False,
             prompt=prepared.prompt,
-            answer=answer,
-            model=answer.model,
-            note=None,
+            answer=llm_result.result,
+            model=llm_result.result.model,
+            retry_attempts=tuple(llm_result.attempts),
+            used_fallback_model=llm_result.used_fallback,
+            note="used_fallback_model" if llm_result.used_fallback else None,
             debug=prepared.debug,
         )

@@ -7,7 +7,8 @@ from pydantic import ValidationError
 
 from ..db import FeedbackWrite, MessageWrite
 from ..db.contracts import ChatMessageRecord
-from ..llm import ChatResult, chat_openai_stream_async
+from ..llm import ChatResult
+from ..llm_retry import chat_with_retry_stream, RetryAttempt
 from .framework import APIRouter, HTTPException, Request, StreamingResponse
 from .schemas import (
     CreateSessionResponse,
@@ -16,10 +17,11 @@ from .schemas import (
     KBHitResponse,
     MessageItemResponse,
     MessageRequest,
-    MessageResponse,
     MetricsResponse,
     RoleDecisionResponse,
     SessionDetailResponse,
+    RetryInfoResponse,
+    RetryAttemptResponse,
 )
 
 
@@ -184,6 +186,18 @@ async def post_message(request: Request, session_id: str) -> MessageResponse:
         handoff_recommended=turn.handoff.recommended,
         handoff_reason=turn.handoff.reason,
         metrics=None if turn.answer is None else _metrics_payload(turn.answer),
+        retry_info=RetryInfoResponse(
+            attempts=[
+                RetryAttemptResponse(
+                    attempt=a.attempt,
+                    model_used=a.model_used,
+                    error=a.error,
+                    delay_before=a.delay_before
+                )
+                for a in turn.retry_attempts
+            ],
+            used_fallback_model=turn.used_fallback_model
+        ) if turn.retry_attempts else None
     )
 
 
@@ -271,17 +285,29 @@ async def post_message_stream(request: Request, session_id: str) -> StreamingRes
         # 2. LLM stream — yield one chunk per token batch
         final_result: ChatResult | None = None
         try:
-            async for item in chat_openai_stream_async(
+            async for item in chat_with_retry_stream(
                 prepared.prompt.system,
                 prepared.prompt.user,
-                model=prepared.active_model,
+                primary_model=prepared.active_model,
+                fallback_model=container.settings.llm_fallback_model,
+                max_retries=container.settings.llm_retry_max,
+                base_delay=container.settings.llm_retry_base_delay,
+                timeout=container.settings.llm_timeout,
+                openrouter_key=container.settings.openrouter_api_key,
             ):
                 if isinstance(item, str):
                     yield _sse({"type": "chunk", "text": item})
+                elif isinstance(item, RetryAttempt):
+                    yield _sse({
+                        "type": "retry", 
+                        "attempt": item.attempt, 
+                        "model": item.model_used,
+                        "delay": item.delay_before
+                    })
                 else:
                     final_result = item
         except Exception as exc:
-            yield _sse({"type": "error", "message": str(exc)})
+            yield _sse({"type": "error", "message": f"Stream failed after retries: {exc}"})
             return
 
         # 3. Persist assistant message, send done

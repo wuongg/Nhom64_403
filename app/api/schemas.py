@@ -53,6 +53,18 @@ class MetricsResponse(BaseModel):
     cost_usd_estimate: float | None = None
 
 
+class RetryAttemptResponse(BaseModel):
+    attempt: int
+    model_used: str
+    error: str | None = None
+    delay_before: float = 0.0
+
+
+class RetryInfoResponse(BaseModel):
+    attempts: list[RetryAttemptResponse]
+    used_fallback_model: bool
+
+
 class MessageResponse(BaseModel):
     session_id: str
     user_message_id: str
@@ -64,6 +76,7 @@ class MessageResponse(BaseModel):
     handoff_recommended: bool
     handoff_reason: str
     metrics: MetricsResponse | None = None
+    retry_info: RetryInfoResponse | None = None
 
 
 class FeedbackRequest(BaseModel):
